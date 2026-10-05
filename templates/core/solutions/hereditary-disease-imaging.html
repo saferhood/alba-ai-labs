@@ -1,0 +1,223 @@
+{% extends "core/solution_base.html" %}
+{% load static %}
+
+{% block headline %}Built for the patients the <em>datasets forgot.</em>{% endblock %}
+{% block intro %}Sickle cell disease and thalassemia cluster in specific populations and regions. The imaging they need is lifelong, subtle, and different from the general case, and the models most hospitals can buy have never seen it. We start from systems that already read the anatomy and evolve them to the cohort.{% endblock %}
+
+{% block body %}
+
+<!-- THE PROBLEM -->
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">The problem</span>
+        <h2 class="h2">A common disease in the wrong place to be rare.</h2>
+      </div>
+      <p class="section__aside">Globally, inherited blood disorders are rare enough that most imaging AI ignores them. In the regions where they concentrate, they are a daily workload.</p>
+    </div>
+    <div class="stats reveal">
+      <div class="stat glass"><strong>1 in 6</strong><span>adults carry the sickle cell trait in one high prevalence province, and more than 1 in 100 have the disease</span></div>
+      <div class="stat glass"><strong>2.6%</strong><span>of newborns in that province are born with sickle cell disease, found by routine screening</span></div>
+      <div class="stat glass"><strong>73%</strong><span>of deaths from the disease in one hospital series occurred before age 30, led by acute chest syndrome</span></div>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <p>Sickle cell disease and thalassemia follow geography. They are concentrated in the Middle East, Africa, the Mediterranean, and South Asia, and within those regions in particular provinces and communities where the trait is carried by a large share of the population. A hospital in one of those provinces may see hundreds of children and adults with the disease, each of whom will be imaged dozens of times across a lifetime.</p>
+      </div>
+      <div class="why__item">
+        <p>That imaging is specific. A chest X-ray during a pain crisis has to separate acute chest syndrome from pneumonia in the first hours. A child's brain MRI has to find small silent infarcts that predict stroke. A hip MRI has to catch bone death early enough to save the joint. A liver or heart MRI has to measure iron overload in a patient who has had years of transfusions. None of this is what general purpose imaging models were trained to see, and some of it actively confuses them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY STANDARD AI FAILS -->
+<section class="section section--alt" id="fails">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Why the standard approach fails</span>
+        <h2 class="h2">The anatomy is different, and the models were never told.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case">
+        <span class="case__num">01</span>
+        <h3>Normal for this patient looks abnormal to the model</h3>
+        <p>Enlarged hearts, thickened skull bones, missing spleens, and bone marrow expansion are routine in this population. A general model flags them as findings and buries the real one in false alarms.</p>
+        <p class="case__answer"><strong>What we do.</strong> The model is evolved on confirmed cases from the cohort, so the baseline anatomy of the disease is learned as the baseline, not as pathology.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">02</span>
+        <h3>The findings that kill are subtle and fast</h3>
+        <p>Acute chest syndrome begins as a faint new infiltrate on a chest X-ray that already looks busy. The hours between the first film and the diagnosis are where outcomes are decided.</p>
+        <p class="case__answer"><strong>What we do.</strong> Recall on early acute chest syndrome is a hard floor in the evolution loop. A candidate that misses it is discarded before anything else is scored.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">03</span>
+        <h3>Half the patients are children</h3>
+        <p>Pediatric imaging has its own anatomy, its own protocols, and far less training data. Most imaging AI was validated on adults and says so in the fine print.</p>
+        <p class="case__answer"><strong>What we do.</strong> Performance on the pediatric subgroup is a separate objective. The model cannot win on adults by losing on children.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">04</span>
+        <h3>No one builds for a market this specific</h3>
+        <p>A product aimed at the global average has no reason to spend a year on one region's disease. So the region's hospitals get the global average.</p>
+        <p class="case__answer"><strong>What we do.</strong> We do not build a new product for each cohort. We evolve our existing systems to it, which is a matter of weeks of search, not years of development.</p>
+      </article>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_normal.html" %}</div>
+  </div>
+</section>
+
+<!-- HOW WE SOLVE IT -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">How we solve it</span>
+        <h2 class="h2">One model family, evolved across a patient’s lifetime.</h2>
+      </div>
+      <p class="section__aside">The same evolutionary loop, applied to each imaging moment the disease creates, from newborn screening to adult complications.</p>
+    </div>
+
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>We do not write a new program for this disease. We take models that already know what a chest, a brain, and a hip look like, make dozens of versions of each, and test them on scans from your own patients. The versions that stop raising false alarms on this population and catch the dangerous findings early are kept and combined. A few rounds later, the model treats your patients as the normal case, because for it they are.</p>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_population.html" %}</div>
+    <div class="reveal">{% include "core/partials/viz_evolution_loop.html" %}</div>
+
+    <figure class="flow glass reveal">
+      <svg viewBox="0 0 960 300" role="img" aria-label="Timeline of imaging across a sickle cell patient's life, each read by an ALBA model evolved to the cohort">
+        <defs>
+          <linearGradient id="tl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8FC2F4" stop-opacity=".2"/><stop offset=".5" stop-color="#8FC2F4" stop-opacity=".9"/><stop offset="1" stop-color="#8FC2F4" stop-opacity=".2"/></linearGradient>
+        </defs>
+        <line x1="40" y1="150" x2="920" y2="150" stroke="url(#tl)" stroke-width="2"/>
+        <g class="flow__nodes">
+          <circle cx="120" cy="150" r="8" fill="#8FC2F4"/>
+          <rect x="40" y="40" width="160" height="70" rx="12"/>
+          <text x="120" y="66" class="flow__out-title">Newborn and child</text>
+          <text x="120" y="88" class="flow__out-sub">Brain MRI for silent infarcts</text>
+          <text x="120" y="190" class="flow__hub-ev">EVOLVED READ</text>
+          <text x="120" y="212" class="flow__out-sub">Small lesions, pediatric floor</text>
+
+          <circle cx="360" cy="150" r="8" fill="#8FC2F4"/>
+          <rect x="280" y="40" width="160" height="70" rx="12"/>
+          <text x="360" y="66" class="flow__out-title">Pain crisis</text>
+          <text x="360" y="88" class="flow__out-sub">Chest X-ray within hours</text>
+          <text x="360" y="190" class="flow__hub-ev">EVOLVED READ</text>
+          <text x="360" y="212" class="flow__out-sub">Chest syndrome vs pneumonia</text>
+
+          <circle cx="600" cy="150" r="8" fill="#8FC2F4"/>
+          <rect x="520" y="40" width="160" height="70" rx="12"/>
+          <text x="600" y="66" class="flow__out-title">Young adult</text>
+          <text x="600" y="88" class="flow__out-sub">Hip and shoulder MRI</text>
+          <text x="600" y="190" class="flow__hub-ev">EVOLVED READ</text>
+          <text x="600" y="212" class="flow__out-sub">Bone death before collapse</text>
+
+          <circle cx="840" cy="150" r="8" fill="#8FC2F4"/>
+          <rect x="760" y="40" width="160" height="70" rx="12"/>
+          <text x="840" y="66" class="flow__out-title">Transfused patient</text>
+          <text x="840" y="88" class="flow__out-sub">Liver and heart MRI</text>
+          <text x="840" y="190" class="flow__hub-ev">EVOLVED READ</text>
+          <text x="840" y="212" class="flow__out-sub">Iron measured, not guessed</text>
+        </g>
+        <text x="480" y="270" class="flow__back">Every confirmed outcome at any point feeds the next generation for all of them</text>
+      </svg>
+    </figure>
+
+    <ol class="steps steps--vertical reveal">
+      <li class="glass step"><span class="step__num step__num--light">01</span><h3 class="step__title">Start from a model that already reads the anatomy</h3><p class="step__text">Our imaging systems already read chest X-rays, brain MRI, musculoskeletal MRI, and abdominal studies. We do not start from zero for a cohort. We start from models that know what a lung, a brain, and a femoral head look like, and we evolve what they consider normal and what they consider urgent.</p></li>
+      <li class="glass step"><span class="step__num step__num--electric">02</span><h3 class="step__title">Baseline on the cohort, by age group</h3><p class="step__text">The models are run against the hospital's own archive of confirmed cases, split by children and adults and by scanner. This is where general models show their false alarm rate on this population. It is usually the first time the hospital has seen that number.</p></li>
+      <li class="glass step"><span class="step__num step__num--mid">03</span><h3 class="step__title">Evolve with hard floors</h3><p class="step__text">A population of model variants is scored on the objectives the hematology and radiology teams set: recall on early acute chest syndrome, silent infarct detection at small lesion sizes, early bone death staging, iron quantification error, pediatric performance, and false alarm rate on the cohort's baseline anatomy. The floors on the time critical findings are absolute. Everything else is a tradeoff the clinical team chooses from.</p></li>
+      <li class="glass step"><span class="step__num step__num--light">04</span><h3 class="step__title">Read inside the clinical pathway</h3><p class="step__text">The evolved models sit inside the hospital's pathways for the disease: the emergency chest X-ray during a crisis, the scheduled brain MRI in childhood, the surveillance MRI for joints and iron. Each flag carries a heat map and a confidence score. The clinician decides.</p></li>
+      <li class="glass step step--final"><span class="step__num step__num--light">05</span><h3 class="step__title">Keep evolving with the registry</h3><p class="step__text">Hospitals that treat these patients usually run a registry. Confirmed outcomes from it feed the next generation on an agreed schedule, and every model version is logged and reproducible for the regulator.</p></li>
+    </ol>
+    <div class="reveal">{% include "core/partials/viz_floor.html" %}</div>
+  </div>
+</section>
+
+<!-- WHAT THE EVOLUTION CHANGES -->
+<section class="section section--alt" id="levers">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What the evolution changes</span>
+        <h2 class="h2">What normal means, and how early the model is allowed to commit.</h2>
+      </div>
+      <p class="section__aside">In genetics, when the effect of one gene depends on another, it is called epistasis. The same is true of these settings. We search them together.</p>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>The model has to learn two things at once: what is normal for your patients, and how early it is allowed to raise a flag. Those two settings pull against each other. Teach it that an enlarged heart is normal and it may get quieter about everything. Push it to flag early and it may flag the enlarged heart again. We search both at the same time and keep only the combinations that get both right.</p>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table class="tbl">
+        <thead><tr><th>What we evolve</th><th>Why it matters for this cohort</th></tr></thead>
+        <tbody>
+          <tr><td>The reference for normal</td><td>Cardiomegaly, marrow expansion, and an absent spleen are baseline here. The model learns the cohort’s baseline so it stops flagging it.</td></tr>
+          <tr><td>Weighting of early, time critical positives</td><td>Early acute chest syndrome is faint and fast. The loss weighting is evolved so the model commits on it, under a recall floor it cannot trade away.</td></tr>
+          <tr><td>Small lesion sensitivity</td><td>Silent infarcts in children are a few millimeters. Patch size and attention placement decide whether they are seen.</td></tr>
+          <tr><td>Pediatric and adult branches</td><td>Whether to run one model with age conditioning or two specialized members is itself a gene the search decides.</td></tr>
+          <tr><td>Quantification calibration</td><td>Iron overload is a number, not a flag. Calibration against the center’s reference measurements is evolved per scanner.</td></tr>
+          <tr><td>Thresholds per pathway</td><td>An emergency chest film and a scheduled surveillance MRI tolerate different false alarm rates. Each pathway gets its own operating point.</td></tr>
+          <tr><td>Abstention</td><td>When the model is unsure, it routes the study to a human without a flag rather than guessing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="section" id="get">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What you get</span>
+        <h2 class="h2">Imaging AI that treats your population as the norm.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case"><h3>Fewer false alarms on your patients</h3><p>Because the cohort’s anatomy is the baseline, radiologists stop dismissing flags and start trusting them.</p></article>
+      <article class="glass case"><h3>Earlier catches on the findings that matter</h3><p>Acute chest syndrome, silent infarcts, and early bone death flagged at the stage where treatment changes the outcome.</p></article>
+      <article class="glass case"><h3>Children covered, not footnoted</h3><p>Pediatric performance is measured, reported, and protected as its own objective.</p></article>
+      <article class="glass case"><h3>Numbers for the transfusion program</h3><p>Calibrated iron quantification across scanners, so dosing decisions rest on measurement.</p></article>
+      <article class="glass case"><h3>In country, in hospital</h3><p>Deployed on your infrastructure. Patient data does not leave, which satisfies data residency rules by construction.</p></article>
+      <article class="glass case"><h3>A documented path through regulation</h3><p>Every generation logged. A predetermined change control plan so evolution is an approved process, not a resubmission.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- WHERE THIS FITS -->
+<section class="section section--alt" id="fits">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Where this fits</span>
+        <h2 class="h2">The harder the cohort, the better the fit.</h2>
+      </div>
+      <p class="section__aside">This is the version of the problem we built the company for: a real population, a real workload, and no product on the shelf for it.</p>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <ul>
+          <li>Hospitals and hemoglobinopathy centers in regions with high carrier prevalence</li>
+          <li>Newborn screening programs that now have a cohort to follow for life</li>
+          <li>Transfusion programs that need iron overload monitored across many scanners</li>
+          <li>Pediatric hospitals carrying the stroke prevention workload for the disease</li>
+          <li>Any other inherited or regionally concentrated condition with the same shape: common locally, invisible to global models</li>
+        </ul>
+      </div>
+      <div class="why__item">
+        <p>Most AI vendors look at a cohort like this and see a small market. We see the clearest possible demonstration of what evolving a model is for. The patients are specific, the findings are specific, the stakes are high, and the standard model is measurably wrong. That is the work we take on first, not last.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block cta_title %}Tell us which population your current tools get wrong.{% endblock %}
+{% block cta_text %}We will baseline our models on your cohort, children and adults separately, and show you the false alarm rate before and after evolution.{% endblock %}

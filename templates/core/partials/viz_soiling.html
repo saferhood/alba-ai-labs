@@ -1,0 +1,14 @@
+<figure class="viz glass">
+  <figcaption class="viz__cap"><strong>A calendar cleans on day 11. The storm comes on day 12.</strong> Output over one month at a desert plant. The fixed schedule cleans every ten days and loses a week of output after the storm. The evolved schedule holds its cleaning until the storm has passed, then cleans immediately.</figcaption>
+  <svg viewBox="0 0 760 240" role="img" aria-label="Line chart of plant output over 30 days. A storm on day 12 drops output sharply. The fixed schedule line stays low until its next cleaning on day 21. The evolved schedule line recovers on day 13.">
+    <line class="so__axis" x1="60" y1="190" x2="720" y2="190"/>
+    <line class="so__axis" x1="60" y1="40" x2="60" y2="190"/>
+    <text class="so__ylab" x="52" y="44">100%</text><text class="so__ylab" x="52" y="194">60%</text>
+    <text class="so__xlab" x="60" y="212">Day 1</text><text class="so__xlab so__xlab--mid" x="310" y="212">Storm, day 12</text><text class="so__xlab so__xlab--end" x="720" y="212">Day 30</text>
+    <rect class="so__storm" x="310" y="40" width="10" height="150"/>
+    <path class="so__line so__line--fixed" d="M60,44 L83,49 L106,53 L128,58 L151,62 L174,67 L197,72 L219,76 L242,80 L265,85 L288,44 L310,117 L333,121 L356,125 L379,130 L401,134 L424,139 L447,143 L470,148 L492,152 L515,44 L538,49 L561,53 L583,58 L606,62 L629,67 L652,72 L674,76 L697,80 L720,85"/>
+    <path class="so__line so__line--evo" d="M60,44 L83,49 L106,53 L128,58 L151,62 L174,67 L197,72 L219,76 L242,80 L265,85 L288,90 L310,162 L333,44 L356,49 L379,53 L401,58 L424,62 L447,67 L470,72 L492,76 L515,80 L538,85 L561,90 L583,44 L606,49 L629,53 L652,58 L674,62 L697,67 L720,72"/>
+    <g class="so__legend"><line class="so__line so__line--fixed" x1="400" y1="230" x2="430" y2="230"/><text x="438" y="234">Fixed every 10 days</text><line class="so__line so__line--evo" x1="580" y1="230" x2="610" y2="230"/><text x="618" y="234">Evolved schedule</text></g>
+    <text class="so__note so__note--left" x="60" y="234">Illustrative. Same number of cleanings in the month.</text>
+  </svg>
+</figure>

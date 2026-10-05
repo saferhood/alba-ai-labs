@@ -1,0 +1,152 @@
+{% extends "core/solution_base.html" %}
+{% load static %}
+
+{% block headline %}Forecast the collapse <em>before it happens.</em>{% endblock %}
+{% block intro %}At a mass gathering in extreme heat, cameras can count the crowd and wearables can report a pulse. Neither can say which site will overwhelm its clinic at three in the afternoon. We fuse weather, shade, crowd density, and clinic arrivals into an hour by hour heat illness forecast, by site, and evolve it against what actually happened.{% endblock %}
+
+{% block body %}
+
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">The problem</span>
+        <h2 class="h2">The sensors see the crowd. Nobody sees the next two hours.</h2>
+      </div>
+      <p class="section__aside">The largest gatherings on earth now take place in heat that exceeds what a human body can survive for long.</p>
+    </div>
+    <div class="stats reveal">
+      <div class="stat glass"><strong>1,301</strong><span>deaths at one gathering in one year, most of them people outside the official system with no access to shade or transport</span></div>
+      <div class="stat glass"><strong>43 hours</strong><span>over six days above the limit of human heat tolerance at that event, with the risk projected to rise several fold as the calendar moves into summer</span></div>
+      <div class="stat glass"><strong>26 hours</strong><span>of transport delay recorded for one group in a prior year, in a system of twenty thousand buses and a rail line</span></div>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <p>Organizers of large events have invested heavily in seeing. Thousands of cameras, crowd density dashboards, thermal imaging, drones, wearable bracelets. What this produces is an accurate picture of the present: how many people are where, right now. It does not produce the thing medical teams need, which is a forecast. Which site will see a surge in heat collapse in two hours? Where should the next cooling station, water truck, and medical team be sent before the surge, not after?</p>
+      </div>
+      <div class="why__item">
+        <p>Heat illness is predictable in aggregate. It follows temperature, humidity, sun exposure, crowd density, walking distance, time since the last water, and how many people at a site are outside the organized system. All of those are measured or measurable. What is missing is the model that combines them into a forecast and the loop that improves it, year after year, from what actually happened.</p>
+      </div>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>A weather forecast tells you it will be 48 degrees at two o’clock. A heat illness forecast tells you that at two o’clock, the unshaded walkway between sites four and five will produce thirty collapses an hour, and that the clinic at site five has capacity for ten. That is the difference between knowing it is hot and knowing where to send the ambulances.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="fails">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Why the standard approach fails</span>
+        <h2 class="h2">Monitoring is not forecasting, and last year is not this year.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case"><span class="case__num">01</span><h3>Dashboards show now, not next</h3><p>Crowd analytics report density and movement in real time. By the time density at a site is alarming, the collapses are already arriving at the clinic.</p><p class="case__answer"><strong>What we do.</strong> We forecast two to six hours ahead, by site and by hour, so resources move before the surge.</p></article>
+      <article class="glass case"><span class="case__num">02</span><h3>The people at most risk are the least measured</h3><p>Those outside the organized system have no bracelet, no bus seat, and no cooled tent. They walk the farthest and appear in the data only when they collapse.</p><p class="case__answer"><strong>What we do.</strong> Camera counts, not registrations, are the crowd signal, and the model is evolved to weight unregistered density as the risk it is.</p></article>
+      <article class="glass case"><span class="case__num">03</span><h3>Each year the layout, the calendar, and the heat change</h3><p>A model fit to last year’s event is wrong about this year’s shade, this year’s routes, and this year’s weather.</p><p class="case__answer"><strong>What we do.</strong> The model is re evolved each season on the current layout and the forecast climate, and updated every hour during the event from live clinic arrivals.</p></article>
+      <article class="glass case"><span class="case__num">04</span><h3>Under forecasting at the peak is the failure that kills</h3><p>A model tuned for average accuracy will be slightly low on the worst hour. The worst hour is the only one that matters.</p><p class="case__answer"><strong>What we do.</strong> Under forecasting at peak hours is a hard constraint. A candidate that misses the peak is discarded regardless of its average.</p></article>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_heatgrid.html" %}</div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">How we solve it</span>
+        <h2 class="h2">A forecast on top of the sensors you already have.</h2>
+      </div>
+      <p class="section__aside">We do not replace the cameras. We give them a future tense.</p>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>We make dozens of versions of a model that predicts how many people will need help at each site, each hour. We test them against past years, hour by hour, and throw out any version that under predicted a peak. The survivors are combined and varied, and the next generation is tested again. During the event, the model sees live clinic arrivals every hour and adjusts. Medical and logistics teams get a map of the next six hours, not a replay of the last one.</p>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_population.html" %}</div>
+    <div class="reveal">{% include "core/partials/viz_evolution_loop.html" %}</div>
+
+    <ol class="steps steps--vertical reveal">
+      <li class="glass step"><span class="step__num step__num--light">01</span><h3 class="step__title">Fuse the signals that exist</h3><p class="step__text">Hourly weather and sun angle, a shade map of each site and route, crowd density from the camera network, transport loading, water point status, and clinic arrivals by site. Wearable data is used where it exists and is never required.</p></li>
+      <li class="glass step"><span class="step__num step__num--electric">02</span><h3 class="step__title">Baseline on past events</h3><p class="step__text">We reconstruct previous events hour by hour: where the collapses happened, how far people had walked, how hot and how crowded it was. This is the ground truth the forecaster is evolved against.</p></li>
+      <li class="glass step"><span class="step__num step__num--mid">03</span><h3 class="step__title">Evolve the forecaster with a peak floor</h3><p class="step__text">Candidates are scored on forecast error by site and hour, on calibration, and on lead time. Any candidate that under forecast a peak hour in a past event is discarded. The surviving set is handed to the medical command, who choose how conservative the deployed forecast should be.</p></li>
+      <li class="glass step"><span class="step__num step__num--light">04</span><h3 class="step__title">Evolve the response plan</h3><p class="step__text">Given the forecast, a second population of plans decides where cooling stations, water, medics, and shuttle capacity go, hour by hour, under the real constraints of how fast a team can move through a crowd. Plans are scored on forecast cases covered within clinic capacity.</p></li>
+      <li class="glass step step--final"><span class="step__num step__num--light">05</span><h3 class="step__title">Update every hour, and every year</h3><p class="step__text">During the event, live clinic arrivals correct the forecast hourly. After the event, the full record becomes training data for next year’s generation, with the new layout and calendar.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section section--alt" id="levers">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What the evolution changes</span>
+        <h2 class="h2">How risk is weighted, and how far ahead the model commits.</h2>
+      </div>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table class="tbl">
+        <thead><tr><th>What we evolve</th><th>Why it matters at a mass gathering</th></tr></thead>
+        <tbody>
+          <tr><td>Exposure model</td><td>How temperature, humidity, sun, and walking distance combine into risk is evolved against the event’s own history, not a textbook formula.</td></tr>
+          <tr><td>Weighting of unregistered density</td><td>The population most at risk is seen only by cameras. How much a camera count raises forecast risk is evolved.</td></tr>
+          <tr><td>Lead time versus accuracy</td><td>A six hour forecast is less accurate than a two hour one. The horizon the response plan uses is a tradeoff the command chooses from the Pareto set.</td></tr>
+          <tr><td>Peak floor</td><td>No candidate that under forecast a past peak survives. This is a filter, not a weight.</td></tr>
+          <tr><td>Response plan rules</td><td>How far a team can move in an hour through a crowd, and what a cooling station is worth at a site, are evolved from past deployments.</td></tr>
+          <tr><td>Hourly correction</td><td>How strongly live clinic arrivals override the forecast is evolved so the model neither ignores the present nor overreacts to it.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="get">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What you get</span>
+        <h2 class="h2">The next six hours, by site, on one map.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case"><h3>Hour by hour heat risk per site</h3><p>Forecast cases with confidence bands, two to six hours ahead.</p></article>
+      <article class="glass case"><h3>Resource recommendations</h3><p>Where to send cooling, water, medics, and shuttle capacity, and when.</p></article>
+      <article class="glass case"><h3>Capacity alerts</h3><p>When a site’s forecast exceeds its clinic capacity, the command knows hours in advance.</p></article>
+      <article class="glass case"><h3>Works with your sensor estate</h3><p>Built on the cameras, weather, and clinic systems already in place.</p></article>
+      <article class="glass case"><h3>Improves every year</h3><p>Each event becomes training data for the next, with the new layout and calendar.</p></article>
+      <article class="glass case"><h3>A record for the review</h3><p>Every forecast and every recommendation is logged against what happened.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="fits">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Where this fits</span>
+        <h2 class="h2">Built for events where the heat is the hazard.</h2>
+      </div>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <ul>
+          <li>Pilgrimages and religious gatherings in hot climates</li>
+          <li>Stadium events, festivals, and marathons in summer</li>
+          <li>Outdoor labor sites with thousands of workers and heat rules to enforce</li>
+          <li>Any organizer with a camera network and a medical command that wants to act earlier</li>
+        </ul>
+      </div>
+      <div class="why__item">
+        <p>The easy part of this problem was solved years ago: see the crowd. The hard part is to forecast what the crowd will need, in a place that changes every year, with the most vulnerable people the least measured, and with a penalty for being low at the peak that no average can excuse. That is the part we built for.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block cta_title %}Bring us last year’s event.{% endblock %}
+{% block cta_text %}We will reconstruct it hour by hour and show you what a forecast would have said at noon on the worst day.{% endblock %}

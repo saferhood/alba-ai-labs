@@ -1,0 +1,27 @@
+<figure class="viz flow glass">
+  <figcaption class="viz__cap"><strong>One scan, two reads, and a rule for disagreement.</strong> The radiologist reads as usual. The model reads the same scan. When they agree, the report goes out. When they disagree, a second radiologist looks before anything is signed. The model never signs a report.</figcaption>
+  <svg viewBox="0 0 760 260" role="img" aria-label="Flow: a scan is read by both a radiologist and the model; agreement goes to the report, disagreement goes to a second radiologist first">
+    <g class="flow__nodes">
+      <rect x="20" y="106" width="120" height="48" rx="12"/><text x="80" y="135">The scan</text>
+      <rect x="220" y="40" width="150" height="48" rx="12"/><text x="295" y="69">Radiologist reads</text>
+      <rect x="220" y="172" width="150" height="48" rx="12"/><text x="295" y="201">Model reads</text>
+    </g>
+    <g class="flow__hub">
+      <rect x="440" y="106" width="110" height="48" rx="24"/><text x="495" y="135" class="flow__hub-title">Agree?</text>
+    </g>
+    <g class="flow__out">
+      <rect x="600" y="40" width="150" height="48" rx="12"/><text x="675" y="63" class="flow__out-title">Report</text><text x="675" y="80" class="flow__out-sub">signed by the radiologist</text>
+      <rect x="600" y="172" width="150" height="48" rx="12"/><text x="675" y="195" class="flow__out-title">Second radiologist</text><text x="675" y="212" class="flow__out-sub">looks before signing</text>
+    </g>
+    <g class="flow__lines">
+      <path d="M140 130 C 180 130, 180 64, 220 64"/>
+      <path d="M140 130 C 180 130, 180 196, 220 196"/>
+      <path d="M370 64 C 410 64, 410 130, 440 130"/>
+      <path d="M370 196 C 410 196, 410 130, 440 130"/>
+      <path d="M550 130 C 580 130, 580 64, 600 64"/>
+      <path d="M550 130 C 580 130, 580 196, 600 196"/>
+    </g>
+    <text class="tr__yes" x="590" y="92">Yes</text>
+    <text class="tr__no" x="585" y="178">No</text>
+  </svg>
+</figure>

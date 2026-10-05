@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="572 563 107 107" width="107" height="107" role="img" aria-label="orb"><defs><radialGradient id="gradCore" cx="44%" cy="38%" r="65%">
+      <stop offset="0" stop-color="#79a5ff"/>
+      <stop offset="0.45" stop-color="#527cf0"/>
+      <stop offset="1" stop-color="#3454d2"/>
+    </radialGradient></defs><circle cx="625.5" cy="616.5" r="51.0" fill="url(#gradCore)"/></svg>

@@ -1,0 +1,250 @@
+{% extends "core/industry_base.html" %}
+{% load static %}
+
+{% block headline %}We find what <em>others miss.</em>{% endblock %}
+{% block intro %}Our imaging systems read CT, X-ray, ultrasound, and MRI for signs of cancer and disease, and show clinicians exactly where to look. Then we evolve them for the cases standard AI gets wrong.{% endblock %}
+
+{% block body %}
+
+<!-- ============ SHOWCASE VIEWER ============ -->
+<section class="section" id="see">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What our systems see</span>
+        <h2 class="h2">Every flag comes with the evidence.</h2>
+      </div>
+      <p class="section__aside">Select a modality. The heat map shows the region that drove the finding. The score is the model’s confidence that the finding is real.</p>
+    </div>
+
+    <div class="viewer glass reveal" id="viewer">
+      <div class="viewer__tabs" role="tablist" aria-label="Imaging modality">
+        <button class="viewer__tab is-active" role="tab" aria-selected="true" data-scan="ct" type="button">CT</button>
+        <button class="viewer__tab" role="tab" aria-selected="false" data-scan="xray" type="button">Chest X-ray</button>
+        <button class="viewer__tab" role="tab" aria-selected="false" data-scan="ultrasound" type="button">Ultrasound</button>
+        <button class="viewer__tab" role="tab" aria-selected="false" data-scan="mri" type="button">MRI</button>
+      </div>
+
+      <div class="viewer__stage">
+        <div class="viewer__image">
+          {# Replace these four pairs with exports from the demo notebook. Keep the same file names or update the src attributes. #}
+          <figure class="scan is-active" data-scan="ct">
+            <img class="scan__base" src="{% static 'img/showcase/ct.jpeg' %}" alt="Axial CT slice with a highlighted region in the right lung" width="900" height="900">
+            <img class="scan__heat" src="{% static 'img/showcase/ct-heat.png' %}" alt="" width="900" height="900">
+            <div class="scan__box" style="left: 63%; top: 38.5%; width: 14%; height: 14%"></div>
+          </figure>
+          <figure class="scan" data-scan="xray">
+            <img class="scan__base" src="{% static 'img/showcase/xray.jpeg' %}" alt="Chest X-ray with a highlighted opacity in the left upper lung" width="900" height="900">
+            <img class="scan__heat" src="{% static 'img/showcase/xray-heat.png' %}" alt="" width="900" height="900">
+            <div class="scan__box" style="left: 65%; top: 29%; width: 17%; height: 15%"></div>
+          </figure>
+          <figure class="scan" data-scan="ultrasound">
+            <img class="scan__base" src="{% static 'img/showcase/ultrasound.jpg' %}" alt="Abdominal ultrasound with a highlighted lesion" width="900" height="900">
+            <img class="scan__heat" src="{% static 'img/showcase/ultrasound-heat.png' %}" alt="" width="900" height="900">
+            <div class="scan__box" style="left: 49%; top: 40%; width: 15%; height: 13%"></div>
+          </figure>
+          <figure class="scan" data-scan="mri">
+            <img class="scan__base" src="{% static 'img/showcase/mri.png' %}" alt="Brain MRI with a highlighted mass" width="900" height="900">
+            <img class="scan__heat" src="{% static 'img/showcase/mri-heat.png' %}" alt="" width="900" height="900">
+            <div class="scan__box" style="left: 59%; top: 50%; width: 16%; height: 15%"></div>
+          </figure>
+          <div class="viewer__controls">
+            <button class="viewer__toggle is-on" id="heat-toggle" type="button" aria-pressed="true"><span class="viewer__dot"></span>Heat map</button>
+            <button class="viewer__toggle is-on" id="box-toggle" type="button" aria-pressed="true"><span class="viewer__dot"></span>Region</button>
+          </div>
+          <span class="viewer__tag">Illustrative render</span>
+        </div>
+
+        <aside class="viewer__panel">
+          {# One block per modality. Edit the data attributes and text to match the notebook results. #}
+          <div class="finding is-active" data-scan="ct" data-confidence="97" data-base="71">
+            <span class="finding__label">Finding</span>
+            <h3 class="finding__name">Pulmonary nodule, right lower lobe</h3>
+            <p class="finding__note">Small, solid, and easy to pass over on a scan ordered for something else.</p>
+          </div>
+          <div class="finding" data-scan="xray" data-confidence="94" data-base="58">
+            <span class="finding__label">Finding</span>
+            <h3 class="finding__name">Focal opacity, left upper zone</h3>
+            <p class="finding__note">Partly hidden behind rib shadow. The kind of early finding that is missed on a busy reading list.</p>
+          </div>
+          <div class="finding" data-scan="ultrasound" data-confidence="91" data-base="49">
+            <span class="finding__label">Finding</span>
+            <h3 class="finding__name">Hypoechoic hepatic lesion</h3>
+            <p class="finding__note">Low contrast against surrounding tissue and highly dependent on probe angle.</p>
+          </div>
+          <div class="finding" data-scan="mri" data-confidence="96" data-base="77">
+            <span class="finding__label">Finding</span>
+            <h3 class="finding__name">Enhancing mass, right frontal lobe</h3>
+            <p class="finding__note">Clear on this sequence. The evolved model also holds its score across scanners and protocols.</p>
+          </div>
+
+          <div class="confidence">
+            <div class="confidence__row">
+              <span>Evolved model</span>
+              <strong class="confidence__value" id="conf-evolved">97%</strong>
+            </div>
+            <div class="confidence__bar"><span class="confidence__fill confidence__fill--evolved" id="bar-evolved" style="width: 97%"></span></div>
+            <div class="confidence__row confidence__row--muted">
+              <span>Standard model</span>
+              <strong class="confidence__value" id="conf-base">71%</strong>
+            </div>
+            <div class="confidence__bar"><span class="confidence__fill confidence__fill--base" id="bar-base" style="width: 71%"></span></div>
+            <p class="confidence__foot">Same scan. Same finding. The difference is what the model was evolved to look for.</p>
+          </div>
+
+          <div class="finding__status"><span class="dot dot--light"></span>Flagged for clinician review</div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE CASES THAT MATTER ============ -->
+<section class="section section--alt" id="cases">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">The cases that matter</span>
+        <h2 class="h2">Standard AI is built for the common case. We build for the rest.</h2>
+      </div>
+      <p class="section__aside">The findings that change a patient’s outcome are often the ones a trained model is least prepared for.</p>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case">
+        <span class="case__num">01</span>
+        <h3>Early findings too subtle to see</h3>
+        <p>A tumor at the stage where treatment works best can look almost like healthy tissue. Models trained on obvious examples learn to wait for obvious examples.</p>
+        <p class="case__answer"><strong>What we do.</strong> We evolve the model against confirmed early cases, with a hard floor on recall for the finding that matters, so it learns to commit before the finding is large.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">02</span>
+        <h3>Rare disease with almost no data</h3>
+        <p>For most rare conditions no single hospital has enough examples to train on. A model that needs thousands of cases never gets built.</p>
+        <p class="case__answer"><strong>What we do.</strong> We start from systems that already read anatomy well and evolve how they augment, weight, and vote on the few cases that exist.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">03</span>
+        <h3>The scan looks different at your hospital</h3>
+        <p>Different scanners, protocols, and patient populations change what a model sees. Accuracy measured somewhere else does not travel.</p>
+        <p class="case__answer"><strong>What we do.</strong> Every candidate is scored on your scanners and your sites, and the one that is worst on any single site is the one we judge it by.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">04</span>
+        <h3>The patients the training data left out</h3>
+        <p>A model that is accurate on average can be unreliable for a group that was underrepresented when it was trained.</p>
+        <p class="case__answer"><strong>What we do.</strong> The gap between groups is one of the objectives the model is evolved on. It cannot win by getting better for some patients at the expense of others.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPPORTUNISTIC SCREENING ============ -->
+<section class="section" id="screening">
+  <div class="container screening">
+    <div class="screening__copy reveal">
+      <span class="eyebrow">Opportunistic screening</span>
+      <h2 class="h2">Every scan, read for everything.</h2>
+      <p class="lead">A chest CT is ordered to answer one question. The image holds answers to several more. Our systems read the whole scan and raise every finding worth a clinician’s attention, including the ones nobody was looking for.</p>
+      <p class="lead">The clinician stays in charge. The system assists, flags, and shows its evidence. It does not diagnose and it does not decide.</p>
+    </div>
+    <div class="screening__demo glass reveal reveal--delay">
+      <div class="screening__head">
+        <span>Chest CT · ordered for</span><strong>Suspected pulmonary embolism</strong>
+      </div>
+      <ul class="flags">
+        <li class="flag flag--primary"><span class="flag__dot"></span><div><strong>Pulmonary embolism</strong><span>Reason for the scan. Reviewed first.</span></div><em>Ordered</em></li>
+        <li class="flag"><span class="flag__dot"></span><div><strong>Pulmonary nodule</strong><span>Right lower lobe, solid, under 8 mm</span></div><em>Also found</em></li>
+        <li class="flag"><span class="flag__dot"></span><div><strong>Coronary artery calcification</strong><span>Visible on a non gated study</span></div><em>Also found</em></li>
+        <li class="flag"><span class="flag__dot"></span><div><strong>Vertebral compression</strong><span>Mid thoracic, height loss</span></div><em>Also found</em></li>
+        <li class="flag"><span class="flag__dot"></span><div><strong>Emphysema</strong><span>Upper lobe predominant</span></div><em>Also found</em></li>
+      </ul>
+      <p class="screening__foot">One scan. Five findings. Four of them would otherwise wait for a symptom.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW WE EVOLVE IT ============ -->
+<section class="section section--alt" id="evolve">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">How we evolve it</span>
+        <h2 class="h2">Not one model. A population that gets selected.</h2>
+      </div>
+      <p class="section__aside">We keep many versions of the model alive at once, score each against your cases and your priorities, keep the strongest, recombine them, and repeat.</p>
+    </div>
+
+    <div class="gens reveal">
+      <div class="gen glass">
+        <span class="gen__label">Generation 1</span>
+        <strong class="gen__metric" data-value="62">62%</strong>
+        <span class="gen__name">Recall on early findings</span>
+        <p>The starting population. Our trained imaging models, varied in how they preprocess, weight rare cases, and decide.</p>
+      </div>
+      <div class="gen__arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="gen glass">
+        <span class="gen__label">Generation 6</span>
+        <strong class="gen__metric" data-value="84">84%</strong>
+        <span class="gen__name">Recall on early findings</span>
+        <p>Weak candidates are gone. The survivors share the settings that worked together: window, patch size, loss weighting.</p>
+      </div>
+      <div class="gen__arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="gen glass gen--final">
+        <span class="gen__label">Generation 14</span>
+        <strong class="gen__metric" data-value="93">93%</strong>
+        <span class="gen__name">Recall on early findings</span>
+        <p>Fit to your scanners, your case mix, and your false positive budget, with the gap between patient groups held within limits.</p>
+      </div>
+    </div>
+    <p class="gens__note">Illustrative run. Replace with results from a client engagement.</p>
+
+    <div class="why reveal">
+      <div class="why__item">
+        <h3>Why evolution and not more tuning</h3>
+        <p>The settings inside a medical model interact. The right decision threshold depends on the loss weighting, which depends on the preprocessing. Tuning them one at a time stops at the first local optimum. A population explores combinations, and crossover between strong candidates carries working combinations forward together. In genetics this interaction is called epistasis. It is the reason we search this way.</p>
+      </div>
+      <div class="why__item">
+        <h3>What the model is judged on</h3>
+        <ul>
+          <li>Recall on the finding that matters, at the false positive budget your readers can live with</li>
+          <li>Accuracy on the worst scanner and site, not the average</li>
+          <li>The gap between patient groups</li>
+          <li>Whether a 90 percent score means the same thing on every case</li>
+          <li>Inference time inside the reading workflow</li>
+        </ul>
+        <p>No single number. The output is a set of models with different tradeoffs, and your clinical team picks the operating point.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY NO ONE ELSE ============ -->
+<section class="section" id="difference">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">The difference</span>
+        <h2 class="h2">What you get from a typical vendor, and what you get from us.</h2>
+      </div>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table class="tbl tbl--compare">
+        <thead><tr><th></th><th>Typical imaging AI</th><th>ALBA</th></tr></thead>
+        <tbody>
+          <tr><td>Training</td><td>Trained once on an averaged dataset</td><td>Evolved on your scanners, your sites, and your cases</td></tr>
+          <tr><td>Scope</td><td>One finding per product</td><td>Every finding on the scan, including the unexpected ones</td></tr>
+          <tr><td>Hard cases</td><td>Tuned for the common presentation</td><td>Recall floor on early and rare findings that cannot be traded away</td></tr>
+          <tr><td>Evidence</td><td>A score</td><td>A score, a heat map, and the region, on every flag</td></tr>
+          <tr><td>Fairness</td><td>Checked after the fact, if at all</td><td>An objective the model is selected on</td></tr>
+          <tr><td>After launch</td><td>Waits for the next vendor release</td><td>New generations on your confirmed outcomes, with a full audit trail</td></tr>
+          <tr><td>Who decides</td><td>Often unclear</td><td>Always the clinician. The system flags and shows its work.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block cta_title %}Bring us the scans your current tools get wrong.{% endblock %}
+{% block cta_text %}We will baseline our systems on your archive, evolve them against your priorities, and show you the difference on your own cases.{% endblock %}

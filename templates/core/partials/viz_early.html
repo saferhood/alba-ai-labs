@@ -1,0 +1,26 @@
+<figure class="viz glass">
+  <figcaption class="viz__cap"><strong>The difference between early and late is a few millimeters.</strong> A model trained on an archive full of large, obvious tumors learns to wait for them. We evolve ours on confirmed early cases so it commits while the finding is still small and the treatment still simple.</figcaption>
+  <svg viewBox="0 0 760 220" role="img" aria-label="A finding growing over time from a small dot to a large mass. The evolved model flags it while small; the standard model flags it when it is large.">
+    <line class="ev__axis" x1="60" y1="150" x2="700" y2="150"/>
+    <text class="ev__axis-label" x="60" y="178">Time</text>
+    <text class="ev__axis-label ev__axis-label--end" x="700" y="178">Later</text>
+    <circle class="ev__mass" cx="120" cy="150" r="4"/>
+    <circle class="ev__mass" cx="230" cy="150" r="7"/>
+    <circle class="ev__mass" cx="340" cy="150" r="11"/>
+    <circle class="ev__mass" cx="450" cy="150" r="16"/>
+    <circle class="ev__mass" cx="560" cy="150" r="22"/>
+    <circle class="ev__mass" cx="670" cy="150" r="28"/>
+    <g class="ev__marker ev__marker--evo">
+      <line x1="230" y1="150" x2="230" y2="60"/>
+      <rect x="130" y="30" width="200" height="34" rx="17"/>
+      <text x="230" y="52">Evolved model flags here</text>
+      <text class="ev__size" x="230" y="200">6 mm</text>
+    </g>
+    <g class="ev__marker ev__marker--std">
+      <line x1="560" y1="150" x2="560" y2="60"/>
+      <rect x="455" y="30" width="210" height="34" rx="17"/>
+      <text x="560" y="52">Standard model flags here</text>
+      <text class="ev__size" x="560" y="200">20 mm</text>
+    </g>
+  </svg>
+</figure>

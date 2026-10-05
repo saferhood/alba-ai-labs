@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="333 259 584 542" width="584" height="542" role="img" aria-label="ALBA AI LABS"><defs><linearGradient id="gradTop" x1="590" y1="270" x2="808" y2="616" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2f69ba"/>
+      <stop offset="0.42" stop-color="#1f4e8e"/>
+      <stop offset="1" stop-color="#0b1a30"/>
+    </linearGradient><linearGradient id="gradLeft" x1="343" y1="785" x2="540" y2="520" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4b84ce"/>
+      <stop offset="0.52" stop-color="#5e9ce8"/>
+      <stop offset="1" stop-color="#79b3fb"/>
+    </linearGradient><linearGradient id="gradRight" x1="606" y1="688" x2="916" y2="782" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#35577a"/>
+      <stop offset="0.5" stop-color="#223d5f"/>
+      <stop offset="1" stop-color="#0b1a30"/>
+    </linearGradient><radialGradient id="gradCore" cx="44%" cy="38%" r="65%">
+      <stop offset="0" stop-color="#79a5ff"/>
+      <stop offset="0.45" stop-color="#527cf0"/>
+      <stop offset="1" stop-color="#3454d2"/>
+    </radialGradient></defs><path d="M620.0,260.0 L617.0,264.0 L612.0,282.0 L598.0,320.0 L598.0,323.0 L571.0,402.0 L570.0,415.0 L574.0,426.0 L604.0,470.0 L635.0,509.0 L651.0,527.0 L689.0,565.0 L703.0,577.0 L718.0,587.0 L776.0,614.0 L811.0,629.0 L818.0,628.0 L822.0,623.0 L821.0,616.0 L708.0,400.0 L632.0,262.0 L628.0,259.0 Z" fill="url(#gradTop)"/><path d="M545.0,508.0 L538.0,506.0 L530.0,512.0 L484.0,564.0 L440.0,620.0 L406.0,670.0 L334.0,787.0 L333.0,795.0 L335.0,798.0 L339.0,800.0 L349.0,798.0 L418.0,769.0 L484.0,737.0 L524.0,715.0 L534.0,707.0 L539.0,696.0 L539.0,683.0 L540.0,682.0 L542.0,615.0 L543.0,614.0 L544.0,576.0 L545.0,575.0 L547.0,524.0 L548.0,523.0 L548.0,512.0 Z" fill="url(#gradLeft)"/><circle cx="625.5" cy="616.5" r="51.0" fill="url(#gradCore)"/><path d="M606.0,728.0 L607.0,735.0 L612.0,739.0 L750.0,774.0 L875.0,801.0 L910.0,801.0 L916.0,796.0 L917.0,793.0 L915.0,786.0 L851.0,678.0 L843.0,671.0 L836.0,669.0 L715.0,669.0 L706.0,671.0 L610.0,723.0 Z" fill="url(#gradRight)"/></svg>

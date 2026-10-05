@@ -1,0 +1,255 @@
+{% extends "core/solution_base.html" %}
+{% load static %}
+
+{% block headline %}Every scan in the network, <em>read twice.</em>{% endblock %}
+{% block intro %}A hospital network has one shared problem: the scans that most need an expert are taken where the experts are not. We put a second read on every CT, MRI, and ultrasound in the network, evolved to the hospitals at the edge, so a cancer found in a regional hospital is found as early as one in the capital.{% endblock %}
+
+{% block body %}
+
+<!-- THE PROBLEM -->
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">The problem</span>
+        <h2 class="h2">Imaging volume grows faster than the people who read it.</h2>
+      </div>
+      <p class="section__aside">Fast growing health systems add scanners in months and specialists in decades. The gap lands on the regions.</p>
+    </div>
+    <div class="stats reveal">
+      <div class="stat glass"><strong>173%</strong><span>rise in breast cancer incidence over fifteen years in one national registry, with half of all cases diagnosed before age 50</span></div>
+      <div class="stat glass"><strong>1 in 2</strong><span>breast cancers in that registry found at a regional or distant stage, with the worst stage mix in peripheral regions</span></div>
+      <div class="stat glass"><strong>2 of 3</strong><span>radiologists in the same system concentrated in three cities, and most of them trained abroad</span></div>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <p>Teleradiology networks were built to close this gap. A regional hospital sends its scans to a central hub, where a radiologist reads them remotely. It works, and it scales the people. It does not scale their attention. Every scan is still one pair of eyes under time pressure, and the scans from the periphery arrive with the hardest cases: later stage disease, more variety in equipment and protocol, and patients who look nothing like the textbook.</p>
+      </div>
+      <div class="why__item">
+        <p>Off the shelf imaging AI does not close the gap either. Most products read one finding on one modality, usually chest X-ray, and were validated on populations that are older, less dense, and more uniform than the ones a growing network serves. A product that is excellent on average can be quietly wrong on the exact hospitals the network bought it for.</p>
+      </div>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>A teleradiology network works like a call center for scans. A small hospital takes the image and sends it to a central office where a specialist reads it. That solves the problem of having no specialist in town. It does not solve the problem of one specialist reading two hundred scans in a shift, or of the hardest scans arriving from the places with the least support.</p>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_early.html" %}</div>
+  </div>
+</section>
+
+<!-- WHY STANDARD AI FAILS -->
+<section class="section section--alt" id="fails">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Why the standard approach fails</span>
+        <h2 class="h2">The hard cases are the point, and they are where trained models stop.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case">
+        <span class="case__num">01</span>
+        <h3>Younger patients, denser tissue</h3>
+        <p>When half the breast cancers are in women under 50, the images are denser and early findings are subtler. Models trained on screening populations in their sixties have not seen enough of this.</p>
+        <p class="case__answer"><strong>What we do.</strong> The model is evolved against confirmed early cases from the network itself, with a hard floor on recall for dense tissue that the search cannot trade away.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">02</span>
+        <h3>Twenty scanners, twenty looks</h3>
+        <p>A network mixes vendors, protocols, and generations of equipment. A model fit to the hub's own scanner degrades on the regional one that matters most.</p>
+        <p class="case__answer"><strong>What we do.</strong> Every candidate model is scored per site and per scanner, and judged by its worst site, not its average.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">03</span>
+        <h3>Training data skewed to late disease</h3>
+        <p>Where cancer presents late, the archive is full of large, obvious findings. A model trained on it learns to wait for them.</p>
+        <p class="case__answer"><strong>What we do.</strong> Early cases are weighted and augmented in the evolution loop so the population of models learns to commit before the finding is large.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">04</span>
+        <h3>One finding per product</h3>
+        <p>Buying a separate tool for breast, lung, liver, and colon means four vendors, four integrations, and still no coverage on CT, MRI, or ultrasound.</p>
+        <p class="case__answer"><strong>What we do.</strong> One platform reads the three modalities for the cancers that matter in your population, with one integration and one audit trail.</p>
+      </article>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_worst_site.html" %}</div>
+  </div>
+</section>
+
+<!-- HOW WE SOLVE IT -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">How we solve it</span>
+        <h2 class="h2">A second read inside the hub, evolved to the edge.</h2>
+      </div>
+      <p class="section__aside">Deployed on the network's own infrastructure. Scans never leave the country, and the model learns from the hospitals it serves.</p>
+    </div>
+
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>Think of it like breeding for a trait. We make dozens of versions of the model, test every one on scans from your own hospitals, keep the versions that catch the most early cancers without crying wolf, combine them, and repeat. After a few rounds, the model that comes out was shaped by your hospitals, not by a dataset from somewhere else.</p>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_population.html" %}</div>
+    <div class="reveal">{% include "core/partials/viz_evolution_loop.html" %}</div>
+
+    <figure class="flow glass reveal">
+      <svg viewBox="0 0 960 360" role="img" aria-label="Flow: regional hospitals send scans to a teleradiology hub where ALBA produces a second read and a prioritized worklist for radiologists">
+        <defs>
+          <linearGradient id="fl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4F8FE0" stop-opacity=".2"/><stop offset="1" stop-color="#8FC2F4" stop-opacity=".9"/></linearGradient>
+          <radialGradient id="fcore" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#8FC2F4" stop-opacity=".5"/><stop offset="1" stop-color="#8FC2F4" stop-opacity="0"/></radialGradient>
+        </defs>
+        <g class="flow__nodes">
+          <rect x="30" y="40" width="150" height="48" rx="12"/><text x="105" y="69">Regional hospital</text>
+          <rect x="30" y="104" width="150" height="48" rx="12"/><text x="105" y="133">Regional hospital</text>
+          <rect x="30" y="168" width="150" height="48" rx="12"/><text x="105" y="197">District clinic</text>
+          <rect x="30" y="232" width="150" height="48" rx="12"/><text x="105" y="261">Tertiary center</text>
+          <rect x="30" y="296" width="150" height="48" rx="12"/><text x="105" y="325">Mobile unit</text>
+        </g>
+        <g class="flow__lines">
+          <path d="M180 64 C 300 64, 300 192, 400 192"/>
+          <path d="M180 128 C 300 128, 300 192, 400 192"/>
+          <path d="M180 192 L 400 192"/>
+          <path d="M180 256 C 300 256, 300 192, 400 192"/>
+          <path d="M180 320 C 300 320, 300 192, 400 192"/>
+        </g>
+        <circle cx="480" cy="192" r="120" fill="url(#fcore)"/>
+        <g class="flow__hub">
+          <rect x="400" y="120" width="160" height="144" rx="18"/>
+          <text x="480" y="156" class="flow__hub-title">Teleradiology hub</text>
+          <text x="480" y="186" class="flow__hub-sub">ALBA second read</text>
+          <text x="480" y="208" class="flow__hub-sub">CT · MRI · Ultrasound</text>
+          <text x="480" y="240" class="flow__hub-ev">Evolved per site</text>
+        </g>
+        <g class="flow__lines">
+          <path d="M560 192 L 680 192"/>
+        </g>
+        <g class="flow__out">
+          <rect x="680" y="96" width="250" height="56" rx="12"/><text x="805" y="120" class="flow__out-title">Prioritized worklist</text><text x="805" y="140" class="flow__out-sub">Urgent findings read first</text>
+          <rect x="680" y="164" width="250" height="56" rx="12"/><text x="805" y="188" class="flow__out-title">Flag with evidence</text><text x="805" y="208" class="flow__out-sub">Heat map, region, confidence</text>
+          <rect x="680" y="232" width="250" height="56" rx="12"/><text x="805" y="256" class="flow__out-title">Discordance review</text><text x="805" y="276" class="flow__out-sub">When reader and model disagree</text>
+        </g>
+        <g class="flow__lines flow__lines--back">
+          <path d="M805 300 C 805 340, 480 340, 480 264"/>
+          <text x="640" y="334" class="flow__back">Confirmed outcomes feed the next generation</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ol class="steps steps--vertical reveal">
+      <li class="glass step"><span class="step__num step__num--light">01</span><h3 class="step__title">Deploy inside the network</h3><p class="step__text">The system runs on the hub's own servers or an in country cloud. It connects to the PACS and the teleradiology queue. No image and no report leaves the network, which satisfies data residency rules by construction.</p></li>
+      <li class="glass step"><span class="step__num step__num--electric">02</span><h3 class="step__title">Baseline by site and scanner</h3><p class="step__text">Our trained imaging models are run against a held out slice of the network's own archive, broken down by hospital and by scanner. Both sides see exactly where the starting point is strong and where it is not.</p></li>
+      <li class="glass step"><span class="step__num step__num--mid">03</span><h3 class="step__title">Evolve to the edge</h3><p class="step__text">We keep a population of model variants alive and score each one on the objectives the network sets: recall for early breast, colorectal, lung, and liver findings at a fixed false positive budget, performance on the single worst site, the gap between patient groups, calibration, and speed. The strongest survive, recombine, and improve. The result is a set of options with different tradeoffs, and radiology leadership picks the operating point.</p></li>
+      <li class="glass step"><span class="step__num step__num--light">04</span><h3 class="step__title">Second read on every study</h3><p class="step__text">Every CT, MRI, and ultrasound gets read by the model as it lands. Urgent findings move to the top of the worklist. Each flag carries a heat map, the region, and a confidence score. Where the radiologist and the model disagree, the case is routed to a second radiologist. The reader decides; the model never signs a report.</p></li>
+      <li class="glass step step--final"><span class="step__num step__num--light">05</span><h3 class="step__title">Keep evolving after launch</h3><p class="step__text">Pathology confirmed outcomes flow back into the evaluation set on an agreed schedule. When a new generation beats the deployed model on every objective, it is proposed, reviewed, and documented under a predetermined change control plan. Every version is reproducible and every change is logged.</p></li>
+    </ol>
+    <div class="reveal">{% include "core/partials/viz_two_reads.html" %}</div>
+  </div>
+</section>
+
+<!-- WHAT THE EVOLUTION CHANGES -->
+<section class="section section--alt" id="levers">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What the evolution changes</span>
+        <h2 class="h2">The settings that decide whether an early cancer is caught.</h2>
+      </div>
+      <p class="section__aside">These interact. The right threshold depends on the loss weighting, which depends on the preprocessing. That is why we search them as a population, not one at a time.</p>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>A model has hundreds of dials. Turning one changes what the others should be set to, the way adjusting the focus on a camera changes the right exposure. Setting them one at a time gets you stuck. Testing many combinations at once, and keeping the ones that work together, is how you find the setting that catches a six millimeter nodule instead of a twenty millimeter one.</p>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table class="tbl">
+        <thead><tr><th>What we evolve</th><th>Why it matters in a network</th></tr></thead>
+        <tbody>
+          <tr><td>Intensity windows and preprocessing</td><td>Different scanners and protocols produce different images of the same tissue. The right normalization is per site, not global.</td></tr>
+          <tr><td>Patch size and attention placement</td><td>Early findings are small. Where the model looks, and at what scale, decides whether it sees a 6 mm nodule or a 20 mm one.</td></tr>
+          <tr><td>Weighting of early and rare positives</td><td>Counteracts an archive skewed toward late disease, so the model learns to commit on subtle findings.</td></tr>
+          <tr><td>Augmentation policy</td><td>Stretches scarce early cases without inventing findings. The strength is evolved, not fixed, because it depends on how rare the finding is.</td></tr>
+          <tr><td>Decision thresholds per finding and per site</td><td>A false positive budget that fits a tertiary center overwhelms a district clinic. Thresholds are tuned to the reading capacity at each site.</td></tr>
+          <tr><td>Ensemble membership and voting</td><td>Which model variants vote, and how their votes are weighted, can be conditioned on the scanner that produced the study.</td></tr>
+          <tr><td>Abstention rules</td><td>Low confidence cases route to a human without a flag, so the system knows what it does not know.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="section" id="get">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What you get</span>
+        <h2 class="h2">One platform, three modalities, every hospital in the network.</h2>
+      </div>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_coverage.html" %}</div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>You are not buying a program that has to be rewritten for your hospitals. You are buying a program that already works and a process that reshapes it to your hospitals, measured on your own scans, with your own radiologists choosing how cautious it should be. The program keeps improving as your results come in, and every version of it is on record.</p>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case">
+        <h3>Coverage where there was none</h3>
+        <p>Second reads on CT, MRI, and ultrasound for the cancers that matter in your population. Not only chest X-ray, and not one finding per vendor.</p>
+      </article>
+      <article class="glass case">
+        <h3>Equal reads at the edge</h3>
+        <p>The regional hospital gets the same quality of second read as the capital, because the model was judged on the regional hospital.</p>
+      </article>
+      <article class="glass case">
+        <h3>Evidence on every flag</h3>
+        <p>A heat map, the region, and a calibrated confidence score. Radiologists see why, not just what. Discordant cases get a second human read.</p>
+      </article>
+      <article class="glass case">
+        <h3>Regulation built in</h3>
+        <p>In country deployment, a full audit trail of every model version, and a predetermined change control plan so that evolution is a documented process rather than a series of resubmissions.</p>
+      </article>
+      <article class="glass case">
+        <h3>Dashboards per site</h3>
+        <p>Recall on confirmed cases, turnaround time, flag rate, and discordance rate for every hospital and scanner, updated as outcomes come in.</p>
+      </article>
+      <article class="glass case">
+        <h3>A system that keeps improving</h3>
+        <p>Each confirmed outcome makes the next generation better. The network's own data becomes its advantage, and it stays inside the network.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- WHERE THIS FITS -->
+<section class="section section--alt" id="fits">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Where this fits</span>
+        <h2 class="h2">Built for the hard version of the problem.</h2>
+      </div>
+      <p class="section__aside">If your imaging network is uneven, your population is young, or your cancers present late, this was built for you.</p>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <ul>
+          <li>National or regional teleradiology networks with hundreds of connected sites</li>
+          <li>Hospital groups where specialist staffing varies widely between locations</li>
+          <li>Health systems whose cancers present at a later stage in outlying regions</li>
+          <li>Systems standing up or scaling screening programs for breast and colorectal cancer</li>
+          <li>Populations where disease strikes younger than the datasets most models were trained on</li>
+        </ul>
+      </div>
+      <div class="why__item">
+        <p>Most imaging AI was built to be good on the common case and sold the same way everywhere. We built ours to be evolved to the uncommon case, and we measure it on the hospital where it is hardest. If a model is going to be wrong somewhere in your network, we would rather find that site in the baseline than have you find it in a patient.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block cta_title %}Bring us the hospitals where your reads are hardest.{% endblock %}
+{% block cta_text %}We will baseline our models on your archive, site by site, and show you what the evolved version finds that the standard one misses.{% endblock %}

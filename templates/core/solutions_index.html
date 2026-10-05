@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}What we solve · ALBA AI LABS{% endblock %}
+{% block description %}The hard problems ALBA AI LABS builds and evolves AI systems for.{% endblock %}
+
+{% block content %}
+{% include "core/partials/icons.html" %}
+{% include "core/partials/nav.html" %}
+
+<main id="top" class="showcase">
+  <header class="show__hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="{% url 'core:home' %}">ALBA</a><span>/</span><span aria-current="page">What we solve</span>
+      </nav>
+      <span class="eyebrow">What we solve</span>
+      <h1 class="show__title">The problems most AI <em>walks past.</em></h1>
+      <p class="show__thesis">Each of these is real, measurable, and poorly served. Each one is a place where a model trained on the average case fails, and where evolving the model to the actual case is the whole job.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="sol-grid reveal">
+        {% for s in solutions %}
+        <a class="glass card sol" href="{% url 'core:solution' s.slug %}">
+          <span class="sol__cat">{{ s.category }}</span>
+          <span class="feature__icon feature__icon--light"><svg class="icon"><use href="#{{ s.icon }}"/></svg></span>
+          <h2 class="sol__name">{{ s.name }}</h2>
+          <p class="sol__thesis">{{ s.thesis }}</p>
+          <span class="link">Read how we solve it <svg class="icon icon--xs"><use href="#i-arrow"/></svg></span>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</main>
+
+{% include "core/partials/footer.html" %}
+{% endblock %}

@@ -1,0 +1,28 @@
+<figure class="viz glass">
+  <figcaption class="viz__cap"><strong>Same facade, a year apart.</strong> A general change detector flags the shadows that moved with the sun and the sand that drifted at the base. The evolved detector ignores all of that and flags the one crack that grew.</figcaption>
+  <svg viewBox="0 0 760 260" role="img" aria-label="Two drawings of the same carved rock facade. Left, a general detector marks shadows on the columns and sand at the base as well as the crack. Right, the evolved detector marks only the crack.">
+    <text class="cd__title" x="150" y="24">General detector</text>
+    <text class="cd__title" x="610" y="24">Evolved detector</text>
+    <g transform="translate(40,0)">
+    <rect x="0" y="40" width="220" height="170" rx="6" class="cd__rock"/>
+    <path d="M30 60 h160 v120 h-160 z" class="cd__door"/>
+    <path d="M30 60 L110 42 L190 60" class="cd__pediment"/>
+    <path d="M60 80 v80 M160 80 v80" class="cd__column"/>
+    <path d="M120 100 q6 10 2 22 q-4 10 4 20" class="cd__crack"/>
+    <ellipse class="cd__flag" cx="60" cy="120" rx="18" ry="50"/>
+    <ellipse class="cd__flag" cx="160" cy="120" rx="18" ry="50"/>
+    <ellipse class="cd__flag" cx="110" cy="190" rx="90" ry="14"/>
+    <ellipse class="cd__flag cd__flag--real" cx="122" cy="122" rx="16" ry="28"/>
+  </g>
+    <g transform="translate(500,0)">
+    <rect x="0" y="40" width="220" height="170" rx="6" class="cd__rock"/>
+    <path d="M30 60 h160 v120 h-160 z" class="cd__door"/>
+    <path d="M30 60 L110 42 L190 60" class="cd__pediment"/>
+    <path d="M60 80 v80 M160 80 v80" class="cd__column"/>
+    <path d="M120 100 q6 10 2 22 q-4 10 4 20" class="cd__crack"/>
+    <ellipse class="cd__flag cd__flag--real" cx="122" cy="122" rx="16" ry="28"/>
+  </g>
+    <text class="cd__verdict cd__verdict--bad" x="150" y="245">4 flags, 3 of them light and sand</text>
+    <text class="cd__verdict cd__verdict--good" x="610" y="245">1 flag, the crack that grew</text>
+  </svg>
+</figure>

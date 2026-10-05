@@ -1,0 +1,153 @@
+{% extends "core/solution_base.html" %}
+{% load static %}
+
+{% block headline %}Clean the panels <em>when it pays.</em>{% endblock %}
+{% block intro %}In desert solar plants, dust is the largest loss nobody forecasts. Plants clean on a fixed calendar and hope. We forecast the dust, row by row, and evolve a cleaning schedule that recovers the most energy for the least water and labor.{% endblock %}
+
+{% block body %}
+
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">The problem</span>
+        <h2 class="h2">Dust takes a third of the output and nobody sees it coming.</h2>
+      </div>
+      <p class="section__aside">Soiling loss is measured after the fact, by the gap between what the plant should have produced and what it did.</p>
+    </div>
+    <div class="stats reveal">
+      <div class="stat glass"><strong>32%</strong><span>of output lost after eight months without cleaning at one desert site, and more than half after six months at another</span></div>
+      <div class="stat glass"><strong>20%</strong><span>of output lost from a single sandstorm, in one afternoon</span></div>
+      <div class="stat glass"><strong>10 days</strong><span>between cleanings at a large plant that holds losses under one percent, whether or not the dust came</span></div>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <p>A solar plant in a dusty climate has two costs that fight each other. Leave the panels alone and the dust piles up, cutting output a little more every day and a lot more after a storm. Clean them and you spend water, labor, and vehicle hours, and you risk cleaning rows that were about to be cleaned by rain or that were barely dirty. Most operators resolve this with a calendar: every row, every ten days. The calendar does not know a storm is coming on day four.</p>
+      </div>
+      <div class="why__item">
+        <p>Forecasting the dust is hard. Dust storms are local, fast, and poorly predicted by regional weather models; the best published models explain only about half the variation in dust events for inland cities. Soiling also varies across a plant: rows near a road or an open edge soil faster than rows in the interior. A plant wide number hides the rows that matter.</p>
+      </div>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>It is like washing a car on a schedule in a place where it might rain, or might get hit by a dust storm, and nobody can tell you which. Washing every Sunday wastes water the week it rains and leaves it filthy the week the storm comes. What you want is a forecast good enough to say wash Thursday, skip next week, and do the north side first.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="fails">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Why the standard approach fails</span>
+        <h2 class="h2">A calendar cannot see a storm, and a weather model cannot see a row.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case"><span class="case__num">01</span><h3>Fixed schedules clean the wrong rows on the wrong days</h3><p>A ten day cycle cleans a row the day before a storm and leaves it dirty for nine days after. The schedule is optimized for the average week, which never happens.</p><p class="case__answer"><strong>What we do.</strong> The schedule is re planned every day from a dust forecast, and the plan is evolved against actual recovered energy, not against a rule of thumb.</p></article>
+      <article class="glass case"><span class="case__num">02</span><h3>Regional dust forecasts are too coarse</h3><p>Public dust models work at tens of kilometers. A plant needs to know about its own site and, ideally, which side of it.</p><p class="case__answer"><strong>What we do.</strong> We fuse the regional forecast with the plant’s own sensors, satellite aerosol data, and the plant’s own soiling history to produce a site and row level forecast, and we evolve the fusion to the site.</p></article>
+      <article class="glass case"><span class="case__num">03</span><h3>Soiling models from one site do not transfer</h3><p>Dust composition, humidity, wind, and panel tilt differ between sites. A model fit to one plant is wrong at the next.</p><p class="case__answer"><strong>What we do.</strong> Every plant gets its own evolved model, baselined on its own production history, with the portfolio’s other plants as a starting point rather than a template.</p></article>
+      <article class="glass case"><span class="case__num">04</span><h3>The objective is money, not cleanliness</h3><p>Cleaning to a cleanliness target ignores the price of water, the cost of a crew, and the value of the energy on that day. A spotless panel on a cloudy day was not worth cleaning.</p><p class="case__answer"><strong>What we do.</strong> The schedule is optimized on recovered revenue minus cleaning cost, under water and crew constraints, with the plant’s own tariff and costs.</p></article>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_soiling.html" %}</div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">How we solve it</span>
+        <h2 class="h2">Forecast the dust. Evolve the schedule.</h2>
+      </div>
+      <p class="section__aside">Two models, both evolved: one that predicts how dirty each row will be, and one that decides what to do about it.</p>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>We breed two things. First, a forecaster: dozens of versions that predict tomorrow’s dust on each row, tested against what actually landed, with the best ones kept and combined. Second, a schedule: dozens of candidate cleaning plans for the next two weeks, scored on how much energy they would recover against what they cost, with the best plans kept, mixed, and varied. The plant gets the plan that wins. The next day, both are updated with what actually happened.</p>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_population.html" %}</div>
+    <div class="reveal">{% include "core/partials/viz_evolution_loop.html" %}</div>
+
+    <ol class="steps steps--vertical reveal">
+      <li class="glass step"><span class="step__num step__num--light">01</span><h3 class="step__title">Connect what the plant already measures</h3><p class="step__text">Inverter output per string, irradiance, weather station, any soiling sensors, cleaning logs, and the regional dust forecast. No new hardware is required to start; the plant’s own production history is the training signal, because the gap between expected and actual output is the soiling.</p></li>
+      <li class="glass step"><span class="step__num step__num--electric">02</span><h3 class="step__title">Baseline the soiling, row by row</h3><p class="step__text">We reconstruct how fast each row has been soiling over the past seasons, and how much each past cleaning recovered. This usually reveals that a handful of edge rows account for a disproportionate share of the loss.</p></li>
+      <li class="glass step"><span class="step__num step__num--mid">03</span><h3 class="step__title">Evolve the dust forecaster</h3><p class="step__text">A population of forecasting models is scored on predicted versus actual soiling per row, one to seven days ahead, with extra weight on storm days. The survivors are combined and varied. The objectives include accuracy on storm days, accuracy on edge rows, and calibration, so the schedule can trust the forecast’s confidence.</p></li>
+      <li class="glass step"><span class="step__num step__num--light">04</span><h3 class="step__title">Evolve the cleaning schedule</h3><p class="step__text">A second population of candidate schedules, each a plan of which rows to clean on which days, is scored on recovered energy value minus water, labor, and vehicle cost, under the plant’s constraints: crew hours, water allocation, and no cleaning during high wind. Plans that violate a constraint are discarded. The best plan is issued; the crew follows it.</p></li>
+      <li class="glass step step--final"><span class="step__num step__num--light">05</span><h3 class="step__title">Learn from every day of production</h3><p class="step__text">Each day’s actual output updates the soiling estimate, the forecaster, and the schedule. Over a season the system learns the plant’s own dust: which wind brings it, which rows catch it, and when cleaning is worth the water.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section section--alt" id="levers">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What the evolution changes</span>
+        <h2 class="h2">What the forecaster watches, and what the schedule is allowed to spend.</h2>
+      </div>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table class="tbl">
+        <thead><tr><th>What we evolve</th><th>Why it matters at a desert plant</th></tr></thead>
+        <tbody>
+          <tr><td>Which signals the forecaster trusts</td><td>Wind direction, humidity, satellite aerosol, and the regional model carry different weight at different sites. The weighting is evolved per plant.</td></tr>
+          <tr><td>Storm day emphasis</td><td>Most days are ordinary. The days that matter are the storms. The loss weighting is evolved so the forecaster is sharpest when it counts.</td></tr>
+          <tr><td>Row grouping</td><td>Which rows soil alike, and can be forecast and cleaned as a block, is learned from production data rather than assumed from the layout.</td></tr>
+          <tr><td>Cleaning horizon and trigger</td><td>Whether to plan three days ahead or fourteen, and at what forecast loss a row earns a cleaning, is evolved against recovered revenue.</td></tr>
+          <tr><td>Cost model</td><td>Water price, crew cost, tariff by hour, and the penalty for cleaning in wind are the plant’s own numbers, and the schedule is scored on them.</td></tr>
+          <tr><td>Hard constraints</td><td>Crew hours, water allocation, and wind limits are never traded. A plan that breaks one is discarded, not penalized.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="get">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What you get</span>
+        <h2 class="h2">More energy, less water, and a plan the crew can follow.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case"><h3>A row level dust forecast</h3><p>One to seven days ahead, with confidence, updated daily.</p></article>
+      <article class="glass case"><h3>A cleaning plan, not a calendar</h3><p>Which rows, which day, in which order, under your crew and water limits.</p></article>
+      <article class="glass case"><h3>Recovered energy you can audit</h3><p>Every cleaning is scored on what it actually recovered, so the plan improves and the finance team can see it.</p></article>
+      <article class="glass case"><h3>Storm response</h3><p>When a storm is forecast, the plan shifts: hold cleaning before, prioritize after, by row.</p></article>
+      <article class="glass case"><h3>Portfolio learning</h3><p>Each plant has its own model. New plants start from the portfolio’s experience and evolve to their own site.</p></article>
+      <article class="glass case"><h3>No new hardware to begin</h3><p>Starts from inverter data and logs. Sensors improve it; they are not required to start.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="fits">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Where this fits</span>
+        <h2 class="h2">Built for plants where the dust is the weather.</h2>
+      </div>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <ul>
+          <li>Utility scale solar in arid and dust prone regions</li>
+          <li>Owners and operators with cleaning crews, water budgets, and production targets</li>
+          <li>Portfolios where each plant soils differently and one policy fits none</li>
+          <li>Plants with soiling sensors that are read but not acted on</li>
+          <li>Any site where the gap between expected and actual output is large and unexplained</li>
+        </ul>
+      </div>
+      <div class="why__item">
+        <p>Soiling is the kind of problem that gets a rule of thumb because the forecast is hard and the loss is invisible on any single day. We take it on precisely because it is hard: the forecast has to be evolved to the site, the schedule has to be evolved to the costs, and the measure of success is a number on the revenue line.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block cta_title %}Send us a year of production data from your dustiest plant.{% endblock %}
+{% block cta_text %}We will reconstruct the soiling row by row and show you what an evolved schedule would have recovered.{% endblock %}

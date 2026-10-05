@@ -1,0 +1,63 @@
+<figure class="viz glass">
+  <figcaption class="viz__cap"><strong>This is an evolutionary algorithm, not a leaderboard.</strong> We do not train many models and keep the best. Each generation is bred from the last. The strongest candidates are selected as parents, their settings are combined to make children, small random changes are introduced, and the children are scored on your own scans. Settings that work together survive together.</figcaption>
+  <svg viewBox="0 0 760 330" role="img" aria-label="The evolutionary loop: a population of models is scored on your scans, the strongest are selected as parents, their settings are combined through crossover, small mutations are introduced, and the children form the next generation. Inset shows two parent genomes combining into a child with one mutated setting.">
+    <circle class="el__circle" cx="200" cy="170" r="110"/>
+    <path class="el__chev" transform="translate(277.8,92.2) rotate(45)" d="M-7 -6 L2 0 L-7 6"/>
+    <path class="el__chev" transform="translate(277.8,247.8) rotate(135)" d="M-7 -6 L2 0 L-7 6"/>
+    <path class="el__chev" transform="translate(122.2,247.8) rotate(225)" d="M-7 -6 L2 0 L-7 6"/>
+    <path class="el__chev" transform="translate(122.2,92.2) rotate(-45)" d="M-7 -6 L2 0 L-7 6"/>
+    <g class="el__node">
+      <rect x="130" y="24" width="140" height="44" rx="12"/><text x="200" y="43">1. Score</text><text class="el__sub" x="200" y="59">on your own scans</text>
+      <rect x="276" y="148" width="140" height="44" rx="12"/><text x="346" y="167">2. Select</text><text class="el__sub" x="346" y="183">the strongest as parents</text>
+      <rect x="130" y="270" width="140" height="44" rx="12"/><text x="200" y="289">3. Combine</text><text class="el__sub" x="200" y="305">parents into children</text>
+      <rect x="0" y="148" width="140" height="44" rx="12"/><text x="70" y="167">4. Vary</text><text class="el__sub" x="70" y="183">small random changes</text>
+    </g>
+    <text class="el__center" x="200" y="166">Next</text><text class="el__center" x="200" y="184">generation</text>
+
+    <g class="el__inset">
+      <rect x="450" y="24" width="300" height="290" rx="16"/>
+      <text class="el__inset-title" x="600" y="50">How a child is made</text>
+      <text class="el__glabel" x="490" y="85">Parent A</text>
+<rect class="el__seg el__seg--ga" x="500" y="72" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="522" y="72" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="544" y="72" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="566" y="72" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="588" y="72" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="610" y="72" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="632" y="72" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="654" y="72" width="18" height="18" rx="4"/>
+      <text class="el__glabel" x="490" y="117">Parent B</text>
+<rect class="el__seg el__seg--gb" x="500" y="104" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="522" y="104" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="544" y="104" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="566" y="104" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="588" y="104" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="610" y="104" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="632" y="104" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="654" y="104" width="18" height="18" rx="4"/>
+      <path class="el__cross" d="M 588 128 L 588 150 M 582 144 L 588 150 L 594 144"/>
+      <text class="el__sub" x="600" y="168">Crossover: segments from each parent</text>
+      <text class="el__glabel" x="490" y="191">Child</text>
+<rect class="el__seg el__seg--ga" x="500" y="178" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="522" y="178" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="544" y="178" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="566" y="178" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="588" y="178" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="610" y="178" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="632" y="178" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="654" y="178" width="18" height="18" rx="4"/>
+      <path class="el__cross" d="M 588 202 L 588 224 M 582 218 L 588 224 L 594 218"/>
+      <text class="el__sub" x="600" y="242">Mutation: one setting changed at random</text>
+      <text class="el__glabel" x="490" y="265">Child</text>
+<rect class="el__seg el__seg--ga" x="500" y="252" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="522" y="252" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="544" y="252" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="566" y="252" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="588" y="252" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gm" x="610" y="252" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--ga" x="632" y="252" width="18" height="18" rx="4"/>
+<rect class="el__seg el__seg--gb" x="654" y="252" width="18" height="18" rx="4"/>
+      <text class="el__legend" x="600" y="300">Each segment is one setting, such as window or threshold</text>
+    </g>
+  </svg>
+</figure>

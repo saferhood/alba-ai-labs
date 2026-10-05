@@ -1,0 +1,152 @@
+{% extends "core/solution_base.html" %}
+{% load static %}
+
+{% block headline %}Credit for the businesses <em>banks cannot score.</em>{% endblock %}
+{% block intro %}Small firms with no credit history now produce structured invoice data every day, because governments made electronic invoicing mandatory. We turn that stream into cash flow forecasts and credit decisions that lenders can act on, with explanations they can defend, evolved to each sector and region.{% endblock %}
+
+{% block body %}
+
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">The problem</span>
+        <h2 class="h2">The largest employers get the smallest share of credit.</h2>
+      </div>
+      <p class="section__aside">In fast growing economies, small businesses are most of the companies and a fraction of the lending.</p>
+    </div>
+    <div class="stats reveal">
+      <div class="stat glass"><strong>1.3M</strong><span>small and medium businesses in one economy, contributing a fifth of output against a national target of more than a third</span></div>
+      <div class="stat glass"><strong>11.5%</strong><span>of bank lending going to them, against a target of twenty percent</span></div>
+      <div class="stat glass"><strong>Longest</strong><span>working capital cycle in its region: the time between paying suppliers and getting paid by customers</span></div>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <p>A bank cannot lend to a business it cannot score, and a small business often has nothing to score: no audited accounts, no credit file, two years of history at most. So the bank asks for collateral the owner does not have, or declines. Meanwhile the business waits sixty to ninety days to be paid by its own customers, runs out of cash in month two, and either borrows informally at a high price or simply stops growing. The problem is not the business. It is the absence of a signal.</p>
+      </div>
+      <div class="why__item">
+        <p>That has changed. Mandatory electronic invoicing now forces every business to business invoice into structured, tax authority stamped records. For the first time, a small firm has a daily, verifiable record of what it sells, to whom, on what terms, and when it is paid. The data exists. What does not exist is the model that reads it, forecasts the firm’s cash position, and tells a lender what the risk actually is.</p>
+      </div>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>A bank looks at a small business the way a landlord looks at a tenant with no references. The invoice stream is the references: here is every customer, every bill, every payment, with a government stamp on it. We read the references and say, in numbers, how likely this business is to run short of cash in ninety days and how likely it is to repay.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="fails">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Why the standard approach fails</span>
+        <h2 class="h2">Credit scoring was built for people with history, in markets that behave.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case"><span class="case__num">01</span><h3>Scores need history the firm does not have</h3><p>Traditional models score on years of repayment behavior. A three year old firm with no loans scores as nothing.</p><p class="case__answer"><strong>What we do.</strong> The score is built from the invoice stream: customer concentration, payment delays, seasonality, growth, and the reliability of the firm’s own customers.</p></article>
+      <article class="glass case"><span class="case__num">02</span><h3>One model for every sector</h3><p>A restaurant, a contractor, and a clinic have different cash rhythms. A single model gets all three wrong in different directions.</p><p class="case__answer"><strong>What we do.</strong> Models are evolved per sector and region, with the lender’s own portfolio outcomes as the measure.</p></article>
+      <article class="glass case"><span class="case__num">03</span><h3>The economy moves and the model does not</h3><p>Payment terms stretch when the economy tightens, including payments from large and public customers. A model fit to a good year is wrong in a tight one.</p><p class="case__answer"><strong>What we do.</strong> Delayed payment behavior is tracked as a live signal, and the model is re evolved as conditions change rather than retrained on a fixed calendar.</p></article>
+      <article class="glass case"><span class="case__num">04</span><h3>Regulators require reasons</h3><p>A decline must come with specific reasons. A black box score cannot provide them.</p><p class="case__answer"><strong>What we do.</strong> Explainability is a hard constraint. Candidates whose decisions cannot be traced to named factors are discarded before anything else is scored.</p></article>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_cashflow.html" %}</div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">How we solve it</span>
+        <h2 class="h2">From invoices to a ninety day forecast and a defensible decision.</h2>
+      </div>
+      <p class="section__aside">Two outputs for a lender: a forecast of the firm’s cash position, and a probability of repayment, each with the factors behind it.</p>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>We breed scoring models the way we breed everything else. Dozens of candidates read the invoice histories of businesses whose outcomes are already known, and each is scored on how well it predicted who repaid, how fair it was across sectors and regions, and whether its reasons make sense. Candidates that cannot explain themselves are thrown out. The rest are combined and varied, and the next generation is tested again. The lender gets a model that fits its own market, with a reason behind every decision.</p>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_population.html" %}</div>
+    <div class="reveal">{% include "core/partials/viz_evolution_loop.html" %}</div>
+
+    <ol class="steps steps--vertical reveal">
+      <li class="glass step"><span class="step__num step__num--light">01</span><h3 class="step__title">Connect the invoice stream with consent</h3><p class="step__text">With the business owner’s permission, the firm’s electronic invoices, bank transactions where open banking allows, and public registry data are brought together. Nothing is scraped. The firm sees what the lender sees.</p></li>
+      <li class="glass step"><span class="step__num step__num--electric">02</span><h3 class="step__title">Baseline on the lender’s own book</h3><p class="step__text">Our models are run against the lender’s historical portfolio, by sector and region. The baseline shows where current scoring declines good firms and approves bad ones, and the size of the opportunity in each segment.</p></li>
+      <li class="glass step"><span class="step__num step__num--mid">03</span><h3 class="step__title">Evolve the scorer with explainability as a filter</h3><p class="step__text">Candidates are scored on repayment prediction, calibration, the fairness gap across sectors and regions, and stability under economic drift. Candidates that cannot produce specific reasons for a decision are discarded. Credit committee chooses the operating point: how much risk to take for how much volume.</p></li>
+      <li class="glass step"><span class="step__num step__num--light">04</span><h3 class="step__title">Forecast cash, not just risk</h3><p class="step__text">For every firm, a thirty, sixty, and ninety day cash position forecast, from expected receipts and known obligations. This is what turns a decline into a product: a short term facility sized to the forecast gap, offered before the firm misses payroll.</p></li>
+      <li class="glass step step--final"><span class="step__num step__num--light">05</span><h3 class="step__title">Re evolve as the market moves</h3><p class="step__text">Every repayment and every delay feeds the next generation. When payment behavior shifts across the economy, the model is re evolved on the new conditions, with every version logged for the regulator.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section section--alt" id="levers">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What the evolution changes</span>
+        <h2 class="h2">Which signals count, in which sector, in which year.</h2>
+      </div>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table class="tbl">
+        <thead><tr><th>What we evolve</th><th>Why it matters for small business credit</th></tr></thead>
+        <tbody>
+          <tr><td>Feature set from the invoice stream</td><td>Customer concentration, days to payment, seasonality, growth, and invoice disputes are weighted differently by sector. The weighting is evolved per segment.</td></tr>
+          <tr><td>Customer quality signal</td><td>A firm is as healthy as its customers pay. How much a slow paying large customer lowers a score is evolved from outcomes.</td></tr>
+          <tr><td>Fairness constraints</td><td>The gap in approval rates between regions and sectors at equal risk is an objective, so the model cannot win by favoring the capital.</td></tr>
+          <tr><td>Drift sensitivity</td><td>How fast the model responds to a change in economy wide payment behavior is evolved to balance stability and timeliness.</td></tr>
+          <tr><td>Explainability filter</td><td>Every decision must trace to a handful of named factors. Candidates that cannot are discarded, not penalized.</td></tr>
+          <tr><td>Operating point</td><td>Approval volume against expected loss is a Pareto set. Credit committee chooses the point; the model does not.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="get">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What you get</span>
+        <h2 class="h2">A score with reasons, a forecast with a product attached.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case"><h3>Thin file scoring</h3><p>A repayment probability for firms with no credit history, from verified invoice data.</p></article>
+      <article class="glass case"><h3>Ninety day cash forecast</h3><p>Expected receipts and obligations, with the gap sized for a facility.</p></article>
+      <article class="glass case"><h3>Reasons on every decision</h3><p>Named factors behind approvals and declines, ready for the adverse action notice.</p></article>
+      <article class="glass case"><h3>Fair across your market</h3><p>Measured and reported approval gaps by sector and region at equal risk.</p></article>
+      <article class="glass case"><h3>Early warning on the book</h3><p>Deteriorating payment behavior flagged before a missed installment.</p></article>
+      <article class="glass case"><h3>Deployed inside your perimeter</h3><p>Runs on the lender’s infrastructure. Data residency and consent handled by design.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="fits">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Where this fits</span>
+        <h2 class="h2">Built for lenders in markets where the data just appeared.</h2>
+      </div>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <ul>
+          <li>Banks and non bank lenders with a small business mandate and a thin file problem</li>
+          <li>Invoice finance and factoring platforms sitting on the invoice stream already</li>
+          <li>Franchise networks and distributors extending credit to their own partners</li>
+          <li>Markets where electronic invoicing is mandatory and credit bureaus are young</li>
+        </ul>
+      </div>
+      <div class="why__item">
+        <p>Everyone can score a firm with ten years of history. The hard version is a firm with two years, no loans, a different rhythm from the next firm over, and a regulator asking why. That is where a model evolved to the segment, with explainability as a rule rather than a feature, is the difference between a decline and a customer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block cta_title %}Show us the segment you decline most.{% endblock %}
+{% block cta_text %}We will baseline our scoring on your book and show you the approvals you are leaving on the table at the same loss rate.{% endblock %}

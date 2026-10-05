@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "core/partials/icons.html" %}
+{% include "core/partials/nav.html" %}
+
+<main id="top">
+
+<!-- ============ HERO: THE FUNNEL ============ -->
+<section class="hero2">
+  <div class="hero2__bg" aria-hidden="true"></div>
+  <div class="container hero2__inner">
+    <div class="hero2__copy reveal">
+      <span class="eyebrow-pill"><span class="eyebrow-pill__dot"></span>Evolutionary AI</span>
+      <h1 class="hero2__title">The dawn of <em>what’s next</em></h1>
+      <p class="hero2__lead">We do not just build AI. We evolve it. Our proprietary evolutionary algorithms breed models through generations the way nature does: score every one, drop the weak, let the strong become parents. Every part of how we do it, from how we score to how we select and combine, runs on a different system than what the field accepts today. Nature redrew the Tokyo rail map this way with a single celled organism. We do it with intelligence.</p>
+      <div class="hero2__actions">
+        <a class="btn btn--primary" href="{% url 'core:solutions' %}">What we solve <svg class="icon icon--sm"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn--ghost" href="mailto:[YOUR CONTACT EMAIL]">Partner With ALBA</a>
+      </div>
+      <p class="hero2__note">Each row is one generation. Every dot is a model with its score. Half are dropped, the rest breed the row below, and the scores climb.</p>
+    </div>
+    <div class="hero2__stage reveal reveal--delay">
+      <canvas class="funnel" id="funnel" width="640" height="640" role="img" aria-label="An animation of forty eight candidate models being scored, culled, and bred over six generations until one remains"></canvas>
+      <div class="funnel__legend" aria-hidden="true">
+        <span><i class="funnel__sw funnel__sw--model"></i>Model and its score</span>
+        <span><i class="funnel__sw funnel__sw--dropped"></i>Dropped</span>
+        <span><i class="funnel__sw funnel__sw--bred"></i>Bred from two parents</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHO WE ARE ============ -->
+<section class="section about" id="about">
+  <div class="container about__grid">
+    <div class="about__copy reveal">
+      <span class="eyebrow">Who we are</span>
+      <h2 class="h2">We build intelligence that keeps getting better.</h2>
+      <p class="lead">ALBA AI LABS is an AI technology company. We build our own AI systems and the evolutionary algorithms behind them. That technology is already built and proven. When a client works with us, they start from that foundation and we shape it to fit their data, their workflows, and their industry. Nobody starts from zero.</p>
+      <p class="lead">We are not an agency and we do not assemble generic tools for each project. We own what we build, and every deployment makes the core stronger.</p>
+    </div>
+    <ul class="about__list reveal reveal--delay">
+      <li class="glass feature">
+        <span class="feature__icon feature__icon--light"><svg class="icon"><use href="#i-shield"/></svg></span>
+        <div><h3 class="feature__title">Original technology</h3><p class="feature__text">Systems designed, built, and owned by ALBA. Reusable intellectual property, not one time project work.</p></div>
+      </li>
+      <li class="glass feature">
+        <span class="feature__icon feature__icon--electric"><svg class="icon"><use href="#i-evolve"/></svg></span>
+        <div><h3 class="feature__title">Built to evolve</h3><p class="feature__text">Our algorithms adapt to the goals, data, and environment of each client instead of staying fixed.</p></div>
+      </li>
+      <li class="glass feature">
+        <span class="feature__icon feature__icon--mid"><svg class="icon"><use href="#i-layers"/></svg></span>
+        <div><h3 class="feature__title">Built for the hard version</h3><p class="feature__text">We take the problems where the standard model is measurably wrong, and we measure ourselves on the worst case, not the average.</p></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ WHAT WE SOLVE ============ -->
+<section class="section section--alt" id="solve">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What we solve</span>
+        <h2 class="h2">The problems most AI walks past.</h2>
+      </div>
+      <p class="section__aside">Each of these is real, measurable, and poorly served. Each one is a place where a model trained on the average case fails.</p>
+    </div>
+    <div class="sol-grid sol-grid--3 reveal">
+      {% for s in solutions %}
+      <a class="glass card sol" href="{% url 'core:solution' s.slug %}">
+        <span class="sol__cat">{{ s.category }}</span>
+        <span class="feature__icon feature__icon--light"><svg class="icon"><use href="#{{ s.icon }}"/></svg></span>
+        <h3 class="sol__name">{{ s.name }}</h3>
+        <p class="sol__thesis">{{ s.thesis }}</p>
+        <span class="link">How we solve it <svg class="icon icon--xs"><use href="#i-arrow"/></svg></span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ INDUSTRIES ============ -->
+<section class="section" id="industries">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Industries</span>
+        <h2 class="h2">Where our systems work.</h2>
+      </div>
+      <p class="section__aside">The same core adapts to the language, data, and rules of each field.</p>
+    </div>
+    <div class="ind-grid reveal">
+      <a class="glass card ind ind--featured" href="{% url 'core:industry' 'healthcare' %}">
+        <span class="sol__cat">Industry</span>
+        <span class="feature__icon feature__icon--light"><svg class="icon"><use href="#i-health"/></svg></span>
+        <h3 class="sol__name">Healthcare</h3>
+        <p class="sol__thesis">Our imaging systems read CT, X-ray, ultrasound, and MRI for signs of cancer and disease, and show clinicians exactly where to look. Then we evolve them for the cases standard AI gets wrong.</p>
+        <ul class="ind__points">
+          <li>Every flag comes with the evidence</li>
+          <li>Every scan, read for everything</li>
+          <li>Evolved to your scanners, your sites, your patients</li>
+        </ul>
+        <span class="link">See what our systems see <svg class="icon icon--xs"><use href="#i-arrow"/></svg></span>
+      </a>
+      <div class="glass card ind">
+        <span class="sol__cat">Everywhere the hard version lives</span>
+        <h3 class="sol__name">One core. Many fields.</h3>
+        <p class="sol__thesis">The same evolutionary loop, pointed at a highway, a solar plant, a flooding city, a lender’s book, or a cliff face.</p>
+        <ul class="ind__tags">
+          {% for ind in industries %}{% if ind.slug != 'healthcare' %}<li><svg class="icon icon--xs"><use href="#{{ ind.icon }}"/></svg>{{ ind.name }}</li>{% endif %}{% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVOLVING AI ============ -->
+<section class="section section--alt evolution" id="evolution">
+  <div class="evolution__glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Our specialty</span>
+        <h2 class="h2 h2--lg">We do not just build AI. We <em>evolve</em> it.</h2>
+      </div>
+      <p class="section__aside">Most AI is built once and left alone. Ours is designed to change. Each generation fits the goals and the environment it serves more closely than the last.</p>
+    </div>
+
+    {% include "core/partials/viz_lineage.html" %}
+
+    <div class="why reveal">
+      <div class="why__item">
+        <h3>How a generation is made</h3>
+        <p>Dozens of versions of a model are scored on real outcomes. The strongest are selected as parents. Their settings are combined to make children, small random changes are introduced, and the children are scored again. Settings that work together survive together. In genetics, that interaction is called epistasis, and it is why we search as a population instead of tuning one dial at a time.</p>
+      </div>
+      <div class="why__item">
+        <h3>What never gets traded away</h3>
+        <ul>
+          <li>Floors on the findings that kill fast or cost most</li>
+          <li>Performance on the worst site, not the average</li>
+          <li>The gap between groups the model serves</li>
+          <li>Reasons a regulator can read</li>
+        </ul>
+        <p>The output is a set of models with different tradeoffs. Your team chooses the operating point. The model never decides for you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+{% include "core/partials/footer.html" %}
+{% endblock %}

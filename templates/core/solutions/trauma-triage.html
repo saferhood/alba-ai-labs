@@ -1,0 +1,182 @@
+{% extends "core/solution_base.html" %}
+{% load static %}
+
+{% block headline %}The scan that cannot wait, <em>read first.</em>{% endblock %}
+{% block intro %}After a crash, the CT of the head, neck, chest, and abdomen is the moment where minutes decide outcomes. In the regions where crashes are deadliest, the specialist to read it is often hours away. We evolve a triage model that puts the bleeding brain at the top of the queue, on the scanner where it was taken.{% endblock %}
+
+{% block body %}
+
+<!-- THE PROBLEM -->
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">The problem</span>
+        <h2 class="h2">Road deaths cluster where radiologists are scarcest.</h2>
+      </div>
+      <p class="section__aside">The long highways between cities produce the worst crashes and deliver them to the smallest hospitals.</p>
+    </div>
+    <div class="stats reveal">
+      <div class="stat glass"><strong>2x</strong><span>the national road death rate in the worst affected regions of one country, with the lowest radiologist density in the same regions</span></div>
+      <div class="stat glass"><strong>4 in 10</strong><span>serious crashes happen outside cities, far from trauma centers and overnight specialist cover</span></div>
+      <div class="stat glass"><strong>Minutes</strong><span>separate a survivable brain bleed from a fatal one. The scan is fast. The read is the bottleneck.</span></div>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <p>A trauma CT is a large study: hundreds of images across the head, cervical spine, chest, abdomen, and pelvis. At a trauma center a radiologist reads it within minutes and a surgeon acts on it. At a regional hospital at two in the morning, it is sent to a teleradiology hub and waits in a queue behind every other scan that arrived that night. The patient with a slowly expanding bleed looks stable until they are not.</p>
+      </div>
+      <div class="why__item">
+        <p>Triage AI for trauma exists, but it was built for the trauma center. It assumes modern multi detector scanners, standard protocols, and a radiologist close by to confirm. The regional hospital that needs triage most has an older scanner, a different protocol, and a reader who will see the study in an hour if it is urgent and in six if it is not. Nobody told the model which hospital it is in.</p>
+      </div>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>Imagine an emergency room where every patient takes a number and waits in order of arrival. The person with a headache and the person with a bleed inside their skull hold the same number. Triage is a nurse who looks at everyone in the waiting room and pulls the bleed to the front. We do that for the scans.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY STANDARD AI FAILS -->
+<section class="section section--alt" id="fails">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Why the standard approach fails</span>
+        <h2 class="h2">Triage models are tuned for the hospitals that need them least.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case">
+        <span class="case__num">01</span>
+        <h3>Older scanners, thicker slices</h3>
+        <p>A small bleed that is obvious on a modern scanner with thin slices can be a faint smudge on an older machine. Models trained on the former miss it on the latter.</p>
+        <p class="case__answer"><strong>What we do.</strong> The model is evolved on studies from the actual scanners in the region, and judged by its performance on the oldest one.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">02</span>
+        <h3>A missed bleed and a false alarm are not equal</h3>
+        <p>Standard models balance the two. In trauma, a missed bleed can be fatal and a false alarm costs a radiologist ten minutes. The balance should not be even.</p>
+        <p class="case__answer"><strong>What we do.</strong> Recall on time critical findings is a hard floor. The false alarm rate is a tradeoff the trauma team sets, per hospital, based on how much reading capacity they have.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">03</span>
+        <h3>Trauma is many findings, not one</h3>
+        <p>Brain bleed, skull fracture, cervical spine injury, collapsed lung, ruptured spleen, pelvic fracture. A product that flags one of them leaves the rest in the queue.</p>
+        <p class="case__answer"><strong>What we do.</strong> The whole study is read for the findings that change the next hour, and the study is ranked by the most urgent one in it.</p>
+      </article>
+      <article class="glass case">
+        <span class="case__num">04</span>
+        <h3>The queue is the product</h3>
+        <p>Flagging a scan is not the same as getting it read sooner. Most tools stop at the flag. The hospital still has one reader and forty scans.</p>
+        <p class="case__answer"><strong>What we do.</strong> The output is a reordered worklist with a time to read target per study, and an alert path to the on call team when the queue cannot meet it.</p>
+      </article>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_triage.html" %}</div>
+  </div>
+</section>
+
+<!-- HOW WE SOLVE IT -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">How we solve it</span>
+        <h2 class="h2">Evolved for the scanner at the end of the highway.</h2>
+      </div>
+      <p class="section__aside">The same evolutionary loop as our other imaging systems, with the objectives trauma demands and the hospitals trauma reaches.</p>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>We start with models that already read head and body CT. We make dozens of versions and test them on crash scans from the regional hospitals themselves, including the old scanners. Versions that miss a bleed are thrown out immediately. Among the rest, the ones that raise the fewest false alarms and read the fastest become parents of the next generation. After a few rounds, the model is tuned to the scanner at the end of the highway, not to a trauma center in the capital.</p>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_population.html" %}</div>
+    <div class="reveal">{% include "core/partials/viz_evolution_loop.html" %}</div>
+
+    <ol class="steps steps--vertical reveal">
+      <li class="glass step"><span class="step__num step__num--light">01</span><h3 class="step__title">Run at the scanner, not only at the hub</h3><p class="step__text">The triage model runs on a small server beside the CT, so the study is scored the moment it is reconstructed, before it is even sent. The flag and the priority travel with the study to the teleradiology hub. If the network link is slow or down, triage still happens locally.</p></li>
+      <li class="glass step"><span class="step__num step__num--electric">02</span><h3 class="step__title">Baseline by scanner and by hour</h3><p class="step__text">Our head and body CT models are run against the region's own trauma archive, broken down by scanner model and by time of day. The baseline shows where misses happen now: usually the oldest scanner, overnight, on the smallest bleeds.</p></li>
+      <li class="glass step"><span class="step__num step__num--mid">03</span><h3 class="step__title">Evolve with a recall floor and a time budget</h3><p class="step__text">Candidates are scored on recall for intracranial bleed, cervical spine injury, tension pneumothorax, and solid organ injury, each with its own floor; on false alarm rate per hospital; on worst scanner performance; and on time to score on the local hardware. The trauma and radiology leads choose the operating point from the surviving set.</p></li>
+      <li class="glass step"><span class="step__num step__num--light">04</span><h3 class="step__title">Reorder the queue and watch the clock</h3><p class="step__text">Every trauma study enters the worklist with a priority and a time to read target. The most urgent study is at the top, with the finding and its location marked. If a study passes its target unread, the on call radiologist and the trauma team are alerted. The radiologist reads and decides. The model orders the line.</p></li>
+      <li class="glass step step--final"><span class="step__num step__num--light">05</span><h3 class="step__title">Learn from every confirmed case</h3><p class="step__text">Operative findings and final reports flow back as ground truth. Each new generation is scored against them, proposed only if it beats the deployed model on every objective, and documented under a predetermined change control plan.</p></li>
+    </ol>
+    <div class="reveal">{% include "core/partials/viz_queue.html" %}</div>
+  </div>
+</section>
+
+<!-- WHAT THE EVOLUTION CHANGES -->
+<section class="section section--alt" id="levers">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What the evolution changes</span>
+        <h2 class="h2">How much the model is willing to miss, and how fast it has to be.</h2>
+      </div>
+      <p class="section__aside">These settings pull against each other. More sensitivity means more false alarms unless the preprocessing and the ensemble change with it. We search them as a population.</p>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table class="tbl">
+        <thead><tr><th>What we evolve</th><th>Why it matters in trauma</th></tr></thead>
+        <tbody>
+          <tr><td>Slice handling and reconstruction window</td><td>Older scanners produce thicker slices and more noise. How the model stacks and windows them decides whether a small bleed survives preprocessing.</td></tr>
+          <tr><td>Per finding sensitivity floors</td><td>Each time critical finding gets its own floor. A candidate that trades bleed recall for fracture recall is discarded.</td></tr>
+          <tr><td>False alarm budget per hospital</td><td>A tertiary center with four readers can absorb more flags than a district hospital with one. The threshold is evolved per site.</td></tr>
+          <tr><td>Study level priority rule</td><td>How the findings in one study combine into a single rank: the worst finding, or a weighted sum. Evolved against the trauma team’s own urgency scale.</td></tr>
+          <tr><td>Model size and speed</td><td>Scoring must finish on the server beside the scanner within the time it takes to send the study. Speed is an objective, not an afterthought.</td></tr>
+          <tr><td>Abstention and escalation</td><td>When the model is unsure, the study is marked for a fast human look rather than ranked low.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="section" id="get">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What you get</span>
+        <h2 class="h2">The bleed at the top of the list, wherever the crash happened.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case"><h3>Triage at the scanner</h3><p>Scored the moment the study is reconstructed, with or without a network connection to the hub.</p></article>
+      <article class="glass case"><h3>A worklist, not a pile</h3><p>Studies ranked by urgency with a time to read target, and alerts when the queue falls behind.</p></article>
+      <article class="glass case"><h3>Every time critical finding</h3><p>Head, spine, chest, abdomen, and pelvis read together, ranked by the finding that matters most.</p></article>
+      <article class="glass case"><h3>Tuned to your worst scanner</h3><p>Judged on the oldest machine in the region, so the hospital that needs it most gets the model that works there.</p></article>
+      <article class="glass case"><h3>Evidence on every flag</h3><p>Location, heat map, and confidence, so the radiologist confirms in seconds instead of searching.</p></article>
+      <article class="glass case"><h3>Audit trail and change control</h3><p>Every version logged and reproducible, with a documented path for updates under your device regulation.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- WHERE THIS FITS -->
+<section class="section section--alt" id="fits">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Where this fits</span>
+        <h2 class="h2">Built for the hospital at the end of the road.</h2>
+      </div>
+      <p class="section__aside">If your trauma arrives at hospitals with one CT, one reader, and a long drive to the nearest neurosurgeon, this was built for you.</p>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <ul>
+          <li>Regional and district hospitals on intercity highways</li>
+          <li>Teleradiology networks covering trauma overnight</li>
+          <li>Health systems with road safety targets they are not on track to meet</li>
+          <li>Trauma systems where transfer decisions depend on a read that is hours away</li>
+          <li>Any setting where the oldest scanner sees the most serious injuries</li>
+        </ul>
+      </div>
+      <div class="why__item">
+        <p>Trauma triage products were designed in the places with the most radiologists. We design ours for the places with the fewest, measure it on the scanner that performs worst, and set the floor on the finding that kills fastest. It is a harder target. It is also the one that moves the death rate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block cta_title %}Tell us which hospitals your trauma arrives at.{% endblock %}
+{% block cta_text %}We will baseline on your trauma archive by scanner and hour, and show you how many time critical findings move to the top of the queue.{% endblock %}

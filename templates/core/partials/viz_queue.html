@@ -1,0 +1,20 @@
+<figure class="viz glass">
+  <figcaption class="viz__cap"><strong>The output is a reordered queue, not a pop up.</strong> Left: the worklist as it arrives, in order of time. Right: the same six studies after triage, ranked by the most urgent finding, each with a time to read target.</figcaption>
+  <svg viewBox="0 0 760 240" role="img" aria-label="Two worklists. Before: six scans in arrival order with the two trauma CTs in the middle and at the bottom. After: the two trauma CTs at the top, marked urgent with targets of now and ten minutes.">
+    <text class="q__title" x="180" y="34">Before: order of arrival</text>
+    <text class="q__title" x="570" y="34">After: order of urgency</text>
+    <rect class="q__row" x="20" y="56" width="320" height="22" rx="6"/><text class="q__txt" x="32" y="71">Routine knee MRI</text><text class="q__time" x="330" y="71">08:12</text>
+<rect class="q__row" x="20" y="84" width="320" height="22" rx="6"/><text class="q__txt" x="32" y="99">Chest CT, follow up</text><text class="q__time" x="330" y="99">08:15</text>
+<rect class="q__row" x="20" y="112" width="320" height="22" rx="6"/><text class="q__txt" x="32" y="127">Trauma CT, 34 year old</text><text class="q__time" x="330" y="127">08:21</text>
+<rect class="q__row" x="20" y="140" width="320" height="22" rx="6"/><text class="q__txt" x="32" y="155">Abdominal ultrasound</text><text class="q__time" x="330" y="155">08:24</text>
+<rect class="q__row" x="20" y="168" width="320" height="22" rx="6"/><text class="q__txt" x="32" y="183">Head CT, headache</text><text class="q__time" x="330" y="183">08:30</text>
+<rect class="q__row" x="20" y="196" width="320" height="22" rx="6"/><text class="q__txt" x="32" y="211">Trauma CT, 19 year old</text><text class="q__time" x="330" y="211">08:33</text>
+    <rect class="q__row q__row--urgent" x="400" y="56" width="340" height="22" rx="6"/><text class="q__txt" x="412" y="71">Trauma CT, 19 year old</text><text class="q__find q__find--urgent" x="600" y="71">Brain bleed</text><text class="q__time q__time--urgent" x="730" y="71">now</text>
+<rect class="q__row q__row--urgent" x="400" y="84" width="340" height="22" rx="6"/><text class="q__txt" x="412" y="99">Trauma CT, 34 year old</text><text class="q__find q__find--urgent" x="600" y="99">Organ injury</text><text class="q__time q__time--urgent" x="730" y="99">10 min</text>
+<rect class="q__row" x="400" y="112" width="340" height="22" rx="6"/><text class="q__txt" x="412" y="127">Head CT, headache</text><text class="q__find" x="600" y="127">No urgent finding</text><text class="q__time" x="730" y="127">1 h</text>
+<rect class="q__row" x="400" y="140" width="340" height="22" rx="6"/><text class="q__txt" x="412" y="155">Chest CT, follow up</text><text class="q__find" x="600" y="155">No urgent finding</text><text class="q__time" x="730" y="155">2 h</text>
+<rect class="q__row" x="400" y="168" width="340" height="22" rx="6"/><text class="q__txt" x="412" y="183">Abdominal ultrasound</text><text class="q__find" x="600" y="183">No urgent finding</text><text class="q__time" x="730" y="183">2 h</text>
+<rect class="q__row" x="400" y="196" width="340" height="22" rx="6"/><text class="q__txt" x="412" y="211">Routine knee MRI</text><text class="q__find" x="600" y="211">No urgent finding</text><text class="q__time" x="730" y="211">4 h</text>
+    <path class="q__arrow" d="M352 140 L 388 140 M380 133 L 388 140 L 380 147"/>
+  </svg>
+</figure>

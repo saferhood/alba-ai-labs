@@ -1,0 +1,35 @@
+<figure class="viz glass">
+  <figcaption class="viz__cap"><strong>What normal looks like depends on who the model learned from.</strong> In this population an enlarged heart, bone changes, and a missing spleen are the baseline. A general model flags all of it. The evolved model flags the one thing that is new.</figcaption>
+  <svg viewBox="0 0 720 300" role="img" aria-label="Two chest outlines. Left, a general model raises five flags, four of them on features that are normal for this patient. Right, the evolved model raises one flag on the new finding.">
+    <text class="nf__title" x="160" y="18">General model</text>
+    <text class="nf__title" x="560" y="18">Evolved model</text>
+    <g transform="translate(0,0)">
+    <rect x="40" y="30" width="240" height="190" rx="60" class="nf__body"/>
+    <ellipse cx="110" cy="125" rx="48" ry="68" class="nf__lung"/>
+    <ellipse cx="210" cy="125" rx="48" ry="68" class="nf__lung"/>
+    <ellipse cx="172" cy="150" rx="34" ry="40" class="nf__heart"/>
+    <rect x="152" y="50" width="16" height="150" rx="8" class="nf__spine"/>
+    <circle class="nf__flag" cx="172" cy="150" r="14"/><circle class="nf__flag nf__flag--ring" cx="172" cy="150" r="22"/>
+    <text class="nf__label" x="172" y="188">Enlarged heart</text>
+    <circle class="nf__flag" cx="90" cy="80" r="14"/><circle class="nf__flag nf__flag--ring" cx="90" cy="80" r="22"/>
+    <text class="nf__label" x="90" y="118">Bone change</text>
+    <circle class="nf__flag" cx="240" cy="200" r="14"/><circle class="nf__flag nf__flag--ring" cx="240" cy="200" r="22"/>
+    <text class="nf__label" x="240" y="238">Absent spleen</text>
+    <circle class="nf__flag" cx="152" cy="60" r="14"/><circle class="nf__flag nf__flag--ring" cx="152" cy="60" r="22"/>
+    <text class="nf__label" x="152" y="98">Marrow change</text>
+    <circle class="nf__flag nf__flag--real" cx="96" cy="170" r="14"/><circle class="nf__flag nf__flag--real nf__flag--ring" cx="96" cy="170" r="22"/>
+    <text class="nf__label" x="96" y="208">New infiltrate</text>
+  </g>
+    <g transform="translate(400,0)">
+    <rect x="40" y="30" width="240" height="190" rx="60" class="nf__body"/>
+    <ellipse cx="110" cy="125" rx="48" ry="68" class="nf__lung"/>
+    <ellipse cx="210" cy="125" rx="48" ry="68" class="nf__lung"/>
+    <ellipse cx="172" cy="150" rx="34" ry="40" class="nf__heart"/>
+    <rect x="152" y="50" width="16" height="150" rx="8" class="nf__spine"/>
+    <circle class="nf__flag nf__flag--real" cx="96" cy="170" r="14"/><circle class="nf__flag nf__flag--real nf__flag--ring" cx="96" cy="170" r="22"/>
+    <text class="nf__label" x="96" y="208">New infiltrate</text>
+  </g>
+    <text class="nf__verdict nf__verdict--bad" x="160" y="290">5 flags, 4 of them false</text>
+    <text class="nf__verdict nf__verdict--good" x="560" y="290">1 flag, the one that matters</text>
+  </svg>
+</figure>

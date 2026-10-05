@@ -1,0 +1,152 @@
+{% extends "core/solution_base.html" %}
+{% load static %}
+
+{% block headline %}Watch the cliff <em>between the surveys.</em>{% endblock %}
+{% block intro %}Rock cut tombs, carved facades, and ancient cliffs lose material to heat, wind, and water a little at a time, and then a lot at once. A survey team visits once. We compare repeat imagery, from drones or satellites, and evolve a change detector for each site so the next survey goes where the rock is moving.{% endblock %}
+
+{% block body %}
+
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">The problem</span>
+        <h2 class="h2">Thousands of sites, one survey, and a clock that does not stop.</h2>
+      </div>
+      <p class="section__aside">Heritage agencies are registering sites faster than anyone can monitor them.</p>
+    </div>
+    <div class="stats reveal">
+      <div class="stat glass"><strong>138</strong><span>monumental rock cut tombs at a single ancient site, every one assessed for rockfall, sliding, or weathering risk</span></div>
+      <div class="stat glass"><strong>14,000+</strong><span>registered archaeological sites in one national register, with no stated monitoring technology behind the register</span></div>
+      <div class="stat glass"><strong>Once</strong><span>the number of times a full drone survey has been flown at one of the most visited sites, as a one off project</span></div>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <p>A sandstone facade carved two thousand years ago is a structure with a decay rate. Daily heating and cooling open cracks. Wind carries sand that abrades. Rare rain finds the cracks and widens them. Tourism adds vibration and footfall. Geologists can assess a site and rank its risks, and they have. What they cannot do is come back every month to every site. The assessment is a snapshot; the decay is a film.</p>
+      </div>
+      <div class="why__item">
+        <p>Repeat imagery is now cheap. A drone can fly a facade in an afternoon and a satellite passes over every few days. Comparing two images of the same cliff for change sounds simple. It is not: the sun moves, shadows move, sand drifts, cameras differ, and a one millimeter crack has to be found in a wall the size of a building. A general change detector flags the shadows. The one that matters flags the crack.</p>
+      </div>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>It is like comparing two photographs of your house taken a year apart to see if a crack has grown. If one was taken at noon and one at sunset, almost everything looks different and nothing is. What you need is a way to ignore the light and the dust and see the crack. Then you need to do it for fourteen thousand houses and send the inspector to the ones that changed.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="fails">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Why the standard approach fails</span>
+        <h2 class="h2">Change detectors see the sun move. They need to see the rock move.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case"><span class="case__num">01</span><h3>Light and shadow swamp the signal</h3><p>On a carved facade, the difference between morning and afternoon is larger than the difference between this year and last. Generic change detection flags the time of day.</p><p class="case__answer"><strong>What we do.</strong> The detector is evolved per site on image pairs where the true change is known, so it learns to ignore that site’s light and keep that site’s cracks.</p></article>
+      <article class="glass case"><span class="case__num">02</span><h3>Every site is a different material</h3><p>Sandstone, limestone, mud brick, and basalt weather differently and photograph differently. One model does not fit the register.</p><p class="case__answer"><strong>What we do.</strong> A model family evolved per material and per site, starting from the nearest neighbor in the portfolio rather than from scratch.</p></article>
+      <article class="glass case"><span class="case__num">03</span><h3>Real change is rare, so there is little to learn from</h3><p>Most image pairs show no structural change. Models trained on that learn to say nothing.</p><p class="case__answer"><strong>What we do.</strong> Detection of every known past change event at the site is a hard floor, and the loop weights the rare true changes so the detector commits on them.</p></article>
+      <article class="glass case"><span class="case__num">04</span><h3>A flag is not a plan</h3><p>A list of ten thousand possible changes is not useful to a team of five geologists.</p><p class="case__answer"><strong>What we do.</strong> Flags are ranked by the site’s existing risk assessment and the size of the change, into a survey schedule the team can actually fly.</p></article>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_change.html" %}</div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">How we solve it</span>
+        <h2 class="h2">Repeat imagery in. A ranked survey list out.</h2>
+      </div>
+      <p class="section__aside">The same evolutionary loop as our medical imaging, pointed at a cliff instead of a lung.</p>
+    </div>
+    <div class="plain glass reveal">
+      <span class="plain__tag">In plain terms</span>
+      <p>We make dozens of versions of a program that compares two photographs of the same rock face and marks what changed. We test them on pairs where geologists already know the answer, including pairs taken at different times of day with nothing changed. Versions that flag shadows are thrown out. Versions that miss a known rockfall are thrown out. The survivors are combined and varied, and after a few rounds the program sees the cracks and not the sun. Then it runs on every new flight or satellite pass and tells the team where to go.</p>
+    </div>
+    <div class="reveal">{% include "core/partials/viz_population.html" %}</div>
+    <div class="reveal">{% include "core/partials/viz_evolution_loop.html" %}</div>
+
+    <ol class="steps steps--vertical reveal">
+      <li class="glass step"><span class="step__num step__num--light">01</span><h3 class="step__title">Build the baseline from what exists</h3><p class="step__text">Past drone surveys, satellite archives, the existing risk assessments, and any photographs with a date. Each site gets a reference model of its facades and slopes, and a record of what has already been documented as changed.</p></li>
+      <li class="glass step"><span class="step__num step__num--electric">02</span><h3 class="step__title">Align repeat imagery</h3><p class="step__text">New flights and satellite passes are registered to the reference so that the same pixel means the same square of rock across years, cameras, and seasons.</p></li>
+      <li class="glass step"><span class="step__num step__num--mid">03</span><h3 class="step__title">Evolve the change detector per site</h3><p class="step__text">Candidates are scored on known true changes caught, on false alarms from light and sand, on the minimum change size detected, and on consistency across seasons. Candidates that miss a documented past event are discarded. The conservation team chooses how sensitive the deployed detector should be.</p></li>
+      <li class="glass step"><span class="step__num step__num--light">04</span><h3 class="step__title">Rank and schedule</h3><p class="step__text">Detected changes are ranked by the site’s risk assessment, the size and rate of the change, and visitor exposure, into a prioritized survey list. The team flies the top of the list. Every confirmed or dismissed flag feeds the next generation.</p></li>
+      <li class="glass step step--final"><span class="step__num step__num--light">05</span><h3 class="step__title">Extend across the register</h3><p class="step__text">Sites with no drone survey start with satellite imagery and a detector evolved from similar material elsewhere in the portfolio. As surveys accumulate, each site gets its own.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section section--alt" id="levers">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What the evolution changes</span>
+        <h2 class="h2">What counts as change, and what counts as noon.</h2>
+      </div>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table class="tbl">
+        <thead><tr><th>What we evolve</th><th>Why it matters on a carved cliff</th></tr></thead>
+        <tbody>
+          <tr><td>Illumination normalization</td><td>How the detector corrects for sun angle and shadow is evolved per site and per orientation of the facade.</td></tr>
+          <tr><td>Minimum change size</td><td>The smallest crack or loss worth flagging is a tradeoff against false alarms, chosen by the conservation team from the Pareto set.</td></tr>
+          <tr><td>Material specific texture model</td><td>Sandstone grain, limestone pitting, and mud brick erosion each look different. The texture features are evolved per material.</td></tr>
+          <tr><td>Rare event weighting</td><td>True structural change is rare in the record. The loss weighting is evolved so the detector commits on it.</td></tr>
+          <tr><td>Documented event floor</td><td>Every past rockfall or crack growth on record must be detected in replay. Candidates that miss one are discarded.</td></tr>
+          <tr><td>Ranking rule</td><td>How risk assessment, change rate, and visitor exposure combine into survey priority is evolved against the team’s own past decisions.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="get">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">What you get</span>
+        <h2 class="h2">Every site watched, the right sites visited.</h2>
+      </div>
+    </div>
+    <div class="cases reveal">
+      <article class="glass case"><h3>Change maps per facade</h3><p>Where the rock moved, how much, and since when, on every repeat flight or pass.</p></article>
+      <article class="glass case"><h3>A ranked survey list</h3><p>The sites and faces the team should visit next, with the evidence.</p></article>
+      <article class="glass case"><h3>Rate of change over time</h3><p>Crack growth and material loss tracked as a trend, not a snapshot.</p></article>
+      <article class="glass case"><h3>Register wide coverage</h3><p>Satellite monitoring for sites that have never been flown, improving as they are.</p></article>
+      <article class="glass case"><h3>Visitor safety input</h3><p>Changes on faces above paths and viewing points flagged first.</p></article>
+      <article class="glass case"><h3>A permanent record</h3><p>Every image, every flag, and every team decision archived against the site.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="fits">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <span class="eyebrow">Where this fits</span>
+        <h2 class="h2">Built for agencies with more sites than surveyors.</h2>
+      </div>
+    </div>
+    <div class="why reveal">
+      <div class="why__item">
+        <ul>
+          <li>National heritage commissions and site authorities with large registers</li>
+          <li>Rock cut and carved monuments in arid climates with daily thermal stress</li>
+          <li>Destinations scaling tourism onto fragile sites</li>
+          <li>Operators of cliffs, quarries, and slopes above public paths</li>
+        </ul>
+      </div>
+      <div class="why__item">
+        <p>Finding a growing crack in a cliff the size of a building, across years of different light, is the same kind of problem as finding a small nodule in a chest scan across different scanners. It is the problem of a small true signal in a large, shifting background. We evolve for that signal, and we measure ourselves on the changes that were actually there.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block cta_title %}Send us two flights of the same facade.{% endblock %}
+{% block cta_text %}We will show you what changed between them, what did not, and what the team should look at first.{% endblock %}

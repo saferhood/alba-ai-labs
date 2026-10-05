@@ -1,0 +1,21 @@
+<figure class="viz glass">
+  <figcaption class="viz__cap"><strong>A miss and a false alarm do not weigh the same.</strong> Standard models are tuned as if they do. In trauma, a missed bleed can cost a life and a false alarm costs a radiologist ten minutes. We set the floor on the miss and let the trauma team decide how many false alarms they can afford.</figcaption>
+  <svg viewBox="0 0 760 230" role="img" aria-label="A balance scale. Left pan: a missed bleed, heavy. Right pan: a false alarm, light. The scale tips hard toward the miss.">
+    <line class="sc__post" x1="380" y1="40" x2="380" y2="190"/>
+    <rect class="sc__base" x="330" y="190" width="100" height="10" rx="5"/>
+    <g transform="rotate(-9 380 70)">
+      <line class="sc__beam" x1="170" y1="70" x2="590" y2="70"/>
+      <line class="sc__string" x1="190" y1="70" x2="190" y2="130"/>
+      <line class="sc__string" x1="570" y1="70" x2="570" y2="130"/>
+      <path class="sc__pan sc__pan--heavy" d="M130 130 Q190 170 250 130 Z"/>
+      <path class="sc__pan" d="M510 130 Q570 170 630 130 Z"/>
+      <rect class="sc__weight sc__weight--heavy" x="150" y="86" width="80" height="44" rx="8"/>
+      <text class="sc__wlabel" x="190" y="112">Missed bleed</text>
+      <rect class="sc__weight" x="546" y="112" width="48" height="18" rx="6"/>
+      <text class="sc__wlabel sc__wlabel--small" x="570" y="125">False alarm</text>
+    </g>
+    <circle class="sc__pivot" cx="380" cy="70" r="7"/>
+    <text class="sc__cap sc__cap--heavy" x="190" y="215">Can cost a life. Floor set here.</text>
+    <text class="sc__cap" x="570" y="215">Costs ten minutes. Budget set by your team.</text>
+  </svg>
+</figure>

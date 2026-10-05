@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ solution.name }} · ALBA AI LABS{% endblock %}
+{% block description %}{{ solution.thesis }}{% endblock %}
+
+{% block content %}
+{% include "core/partials/icons.html" %}
+{% include "core/partials/nav.html" %}
+
+<main id="top" class="showcase">
+
+  <header class="show__hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="{% url 'core:home' %}">ALBA</a><span>/</span><a href="{% url 'core:solutions' %}">What we solve</a><span>/</span><span aria-current="page">{{ solution.short }}</span>
+      </nav>
+      <span class="eyebrow">{{ solution.category }}</span>
+      <h1 class="show__title">{% block headline %}{{ solution.name }}{% endblock %}</h1>
+      <p class="show__thesis">{% block intro %}{{ solution.thesis }}{% endblock %}</p>
+    </div>
+  </header>
+
+  {% block body %}{% endblock %}
+
+  <section class="section show__cta-band">
+    <div class="container">
+      <div class="paper__cta glass">
+        <div>
+          <strong>{% block cta_title %}Bring us the version of this problem you have.{% endblock %}</strong>
+          <span>{% block cta_text %}We start from systems that already work and evolve them until they work for you.{% endblock %}</span>
+        </div>
+        <a class="btn btn--primary" href="mailto:[YOUR CONTACT EMAIL]">Partner With ALBA <svg class="icon icon--xs"><use href="#i-arrow"/></svg></a>
+      </div>
+      <nav class="paper__pager" aria-label="Other solutions">
+        {% if prev_item %}<a class="paper__pager-link" href="{% url 'core:solution' prev_item.slug %}"><span>Previous</span><strong>{{ prev_item.short }}</strong></a>{% else %}<span></span>{% endif %}
+        {% if next_item %}<a class="paper__pager-link paper__pager-link--next" href="{% url 'core:solution' next_item.slug %}"><span>Next</span><strong>{{ next_item.short }}</strong></a>{% endif %}
+      </nav>
+    </div>
+  </section>
+</main>
+
+{% include "core/partials/footer.html" %}
+{% endblock %}

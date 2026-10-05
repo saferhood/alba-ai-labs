@@ -1,0 +1,12 @@
+{% load static %}
+<footer class="footer">
+  <div class="container footer__inner">
+    <a class="brand" href="{% url 'core:home' %}" aria-label="ALBA AI LABS home">
+      <img class="brand__mark" src="{% static 'img/logo-mark.svg' %}" alt="" width="24" height="22">
+      <span class="brand__word">ALBA</span>
+      <span class="brand__sub">AI LABS</span>
+    </a>
+    <a class="link" href="mailto:[YOUR CONTACT EMAIL]">Partner with ALBA <svg class="icon icon--xs"><use href="#i-arrow"/></svg></a>
+    <p class="footer__legal">© {% now "Y" %} ALBA AI LABS. All rights reserved.</p>
+  </div>
+</footer>
